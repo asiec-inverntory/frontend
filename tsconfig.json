@@ -14,7 +14,8 @@
     "sourceMap": false,
     "allowJs": true,
     "jsx": "react-jsx",
-    "rootDir": "src",
+    "baseUrl": "src",
+    "rootDir": "src/",
     "moduleResolution": "node",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -29,10 +30,11 @@
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "allowSyntheticDefaultImports": true,
-    "emitDecoratorMetadata": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-    "src"
-  ]
+    "src/**/*"
+  ],
+  "exclude": ["node_modules"],
+  "moduleDirectories": ["node_modules", "src"]
 }

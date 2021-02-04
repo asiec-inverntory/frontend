@@ -1,11 +1,25 @@
 import React from 'react';
-import { Button } from 'antd';
+import { Layout } from 'antd';
+
+import {
+  Header, RouteSidebar, Content,
+} from './styled';
 import './App.css';
 
 const App = () => (
-  <div className="App">
-    <Button type="primary">Button</Button>
-  </div>
+  <>
+    <Header>
+      <div>There will be some information later</div>
+    </Header>
+    <Layout>
+      <RouteSidebar>
+        <div>There will be navigation</div>
+      </RouteSidebar>
+      <Content>
+        <div>There will be table</div>
+      </Content>
+    </Layout>
+  </>
 );
 
 export default App;
