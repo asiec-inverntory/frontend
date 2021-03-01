@@ -5,33 +5,14 @@ import { primaryColor } from 'App/consts/colors';
 
 const { Sider } = Layout;
 
-export const Container = styled(Layout)`
-  height: 100%;
-`;
-
-export const ContentContainer = styled(Layout)`
-  display: flex;
-  flex: 1;
-  flex-direction: row;
-`;
-
-export const CommonSidebar = styled(Sider)`
+export const RouteSidebar = styled(Sider)`
+  left: 0;
   z-index: 1;
 
-  height: 100%;
-  overflow: auto;
-`;
-
-export const RouteSidebar = styled(CommonSidebar)`
-  left: 0;
-
   height: calc(100vh - 64px);
+  overflow: auto;
 
   background: ${primaryColor};
-`;
-
-export const ParamsSidebar = styled(CommonSidebar)`
-  right: 0;
 `;
 
 export const Header = styled(Layout.Header)`

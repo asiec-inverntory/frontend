@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Layout } from 'antd';
 
 import {
@@ -9,14 +10,20 @@ import './App.css';
 const App = () => (
   <>
     <Header>
-      <div>There will be some information later</div>
+      <div>
+        There will be some information later
+      </div>
     </Header>
     <Layout>
       <RouteSidebar>
-        <div>There will be navigation</div>
+        <div>
+          There will be navigation
+        </div>
       </RouteSidebar>
       <Content>
-        <div>There will be table</div>
+        <div>
+          There will be table
+        </div>
       </Content>
     </Layout>
   </>
