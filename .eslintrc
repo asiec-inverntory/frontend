@@ -3,7 +3,9 @@
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "plugins": ["react", "import"],
   "settings": {
@@ -15,6 +17,7 @@
       }
     },
     "react": {
+      "pragma": "React",
       "version": "detect"
     }
   },
@@ -84,7 +87,7 @@
     "no-undef": "error",
     "no-undef-init": "error",
     "no-unused-vars": ["error", { "vars": "all" }],
-    "no-use-before-define": "error",
+    "no-use-before-define": "off",
     // stylistic
     "array-bracket-newline": ["error", "consistent"],
     "array-bracket-spacing": [
@@ -226,6 +229,7 @@
     "react/jsx-max-depth": ["error", { "max": 5 }],
     "react/jsx-max-props-per-line": ["error", { "when": "multiline" }],
     "react/jsx-no-bind": "error",
+    "react/react-in-jsx-scope": "off",
     // "react/jsx-no-constructed-context-values": "error",  //uncomment when this rule will be in release
     "react/jsx-no-useless-fragment": "error",
     "react/jsx-one-expression-per-line": "error",
@@ -241,7 +245,6 @@
     "import/no-useless-path-segments": "error",
     "import/export": "error",
     "import/no-mutable-exports": "error",
-    "import/no-unused-modules": ["warn", { "unusedExports": true }],
     "import/first": "error",
     "import/extensions": "error",
     "import/order": [
@@ -265,7 +268,11 @@
     ],
     "import/newline-after-import": "error",
     "import/no-named-default": "error",
-    "import/no-anonymous-default-export": "error"
+    "import/no-anonymous-default-export": "error",
+    // TypeScript
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-use-before-define": ["error"]
   },
   "env": {
     "browser": true,
@@ -277,5 +284,6 @@
       "jsx": true
     },
     "sourceType": "module"
-  }
+  },
+  "parser": "@typescript-eslint/parser"
 }
