@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+  min-width: 700px;
   margin: 24px 16px 24px 0;
 
   .ant-table-cell {

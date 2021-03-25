@@ -5,6 +5,7 @@ export const FiltersContainer = styled.div`
   flex-direction: column;
 
   width: 300px;
+  min-width: 200px;
   height: 100vh;
   padding: 24px 16px;
 
