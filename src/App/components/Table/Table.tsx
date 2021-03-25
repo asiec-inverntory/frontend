@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { Table, Button } from 'antd';
 
-import { getColumnNameByKey } from 'utils';
+import { getLabelByKey } from 'utils';
 
 import { TablePropsType } from './types';
 import { Container } from './styled';
@@ -19,7 +19,7 @@ const TableComponent = <DataType extends { key: string | number }>({ data, colum
       <Table dataSource={data} pagination={false}>
         {columnKeys.map((key) => (
           <Table.Column
-            title={getColumnNameByKey(key)}
+            title={getLabelByKey(key)}
             dataIndex={key}
             key={key}
           />

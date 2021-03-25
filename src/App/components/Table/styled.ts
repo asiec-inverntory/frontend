@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  margin: 24px 16px;
+  width: 100%;
+  margin: 24px 16px 24px 0;
 
   .ant-table-cell {
     border-color: #e5e7ec !important;
