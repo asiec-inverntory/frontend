@@ -1,3 +1,5 @@
+import ActionBar from './ActionBar';
+import { Container } from './styled';
 import Table from './Table';
 import { TablePropsType } from './types';
 
@@ -32,7 +34,10 @@ const exampleStoreData: TablePropsType<ExampleDataType & { key: number | string 
 };
 
 const TableContainer = () => (
-  <Table {...exampleStoreData} />
+  <Container>
+    <ActionBar />
+    <Table {...exampleStoreData} />
+  </Container>
 );
 
 export default TableContainer;

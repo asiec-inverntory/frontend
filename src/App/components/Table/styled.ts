@@ -1,9 +1,14 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  min-width: 700px;
   margin: 24px 16px 24px 0;
+`;
+
+export const TableContainer = styled.div`
+  min-width: 700px;
 
   .ant-table-cell {
     border-color: #e5e7ec !important;
@@ -11,7 +16,7 @@ export const Container = styled.div`
 
   .ant-table {
     border: 1px solid #e5e7ec;
-    border-radius: 8px;
+    border-radius: 0;
   }
 
   .ant-table-row:last-child > .ant-table-cell {

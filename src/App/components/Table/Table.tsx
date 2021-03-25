@@ -5,17 +5,17 @@ import { Table, Button } from 'antd';
 import { getLabelByKey } from 'utils';
 
 import { TablePropsType } from './types';
-import { Container } from './styled';
+import { TableContainer } from './styled';
 
 const TableComponent = <DataType extends { key: string | number }>({ data, columnKeys }: TablePropsType<DataType>) => {
   const handleMoreInfoButtonRender = useCallback(() => (
-    <Button type="primary">
+    <Button>
       Подробнее
     </Button>
   ), []);
 
   return (
-    <Container>
+    <TableContainer>
       <Table dataSource={data} pagination={false}>
         {columnKeys.map((key) => (
           <Table.Column
@@ -32,7 +32,7 @@ const TableComponent = <DataType extends { key: string | number }>({ data, colum
           render={handleMoreInfoButtonRender}
         />
       </Table>
-    </Container>
+    </TableContainer>
   );
 };
 
