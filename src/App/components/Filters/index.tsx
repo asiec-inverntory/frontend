@@ -1,4 +1,4 @@
-import { getLabelByKey, getAbbreviatedName } from 'utils';
+import { getLabelByKey, getAbbreviatedName } from 'utils/format';
 
 import Filters from './Filters';
 import { FiltersType } from './types';
