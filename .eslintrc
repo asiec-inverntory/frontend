@@ -228,7 +228,6 @@
     "react/jsx-key": ["error", { "checkFragmentShorthand": true }], // add "checkKeyMustBeforeSpread": true when checkKeyMustBeforeSpread propety will be in release
     "react/jsx-max-depth": ["error", { "max": 5 }],
     "react/jsx-max-props-per-line": ["error", { "when": "multiline" }],
-    "react/jsx-no-bind": "error",
     "react/react-in-jsx-scope": "off",
     // "react/jsx-no-constructed-context-values": "error",  //uncomment when this rule will be in release
     "react/jsx-no-useless-fragment": "error",
