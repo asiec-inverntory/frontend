@@ -1,16 +1,21 @@
 import { Modal, Button, Space } from 'antd';
-import upperFirst from 'lodash/upperFirst';
+import { inject, observer } from 'mobx-react';
 
-import { ActionType } from 'utils/types';
+import UiStore from 'stores/listing/UiStore';
 
 import { ContentContainer } from './styled';
 
 type ActionPopupTypes = {
-  title: ActionType;
-}
+  uiStore?: UiStore;
+};
 
-const ActionPopup = ({ title }: ActionPopupTypes) => (
-  <Modal title={upperFirst(title)} visible centered>
+const ActionPopup = ({ uiStore }: ActionPopupTypes) => (
+  <Modal
+    title={uiStore?.actionName}
+    visible={uiStore?.isActionPopupOpen}
+    centered
+    onCancel={() => uiStore?.closeActionPopup()}
+  >
     <ContentContainer>
       <Space direction="vertical" style={{ width: '100%' }}>
         <Button type="primary" block>
@@ -27,4 +32,4 @@ const ActionPopup = ({ title }: ActionPopupTypes) => (
   </Modal>
 );
 
-export default ActionPopup;
+export default inject('uiStore')(observer(ActionPopup));

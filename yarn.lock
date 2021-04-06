@@ -3566,6 +3566,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/react-dom@npm:^17.0.3":
+  version: 17.0.3
+  resolution: "@types/react-dom@npm:17.0.3"
+  dependencies:
+    "@types/react": "*"
+  checksum: 9314c91a985f153591e1e74aef3d63d8b22e098069773f32745bf0733740a49802731761a46da8788a7d3dd2c21346036f12c2c24627630e5a6210b120a650e6
+  languageName: node
+  linkType: hard
+
 "@types/react@npm:*":
   version: 17.0.1
   resolution: "@types/react@npm:17.0.1"
@@ -4691,6 +4700,7 @@ __metadata:
     "@testing-library/user-event": 13.1.1
     "@types/lodash": 4.14.168
     "@types/react": 17.0.3
+    "@types/react-dom": ^17.0.3
     "@types/recompose": 0.30.7
     "@types/styled-components": 5.1.9
     "@typescript-eslint/eslint-plugin": 4.21.0
@@ -4703,6 +4713,7 @@ __metadata:
     eslint-plugin-react-hooks: 4.2.0
     husky: ^6.0.0
     mobx: 6.1.8
+    mobx-react: ^7.1.0
     npm-run-all: 4.1.5
     react: 17.0.2
     react-dom: 17.0.2
@@ -12257,6 +12268,21 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"mobx-react-lite@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "mobx-react-lite@npm:3.2.0"
+  peerDependencies:
+    mobx: ^6.1.0
+    react: ^16.8.0 || ^17
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 80d782f9e31039fd352b1021e9edd2ab1aaa17fe9893e0a0fd833ca964567691e80f02643b77bbc5f8fb62db08a23b418c9e1e5dbf7de13ab222d82b31a53ec6
+  languageName: node
+  linkType: hard
+
 "mobx-react@npm:^4.4.2":
   version: 4.4.3
   resolution: "mobx-react@npm:4.4.3"
@@ -12266,6 +12292,23 @@ fsevents@~2.1.2:
     mobx: ^2.6.3 || ^3.0.0
     react: ^0.13.0 || ^0.14.0 || ^15.0.0 || ^16.0.0
   checksum: ca4b6391d96b7b0516786dabc8a8a0b2088e6606fa7d43a237e8da5a0e0d378e79d010e5f90956ad305c24e4c7be7557c35adb468322a65071e10de3ab9de85c
+  languageName: node
+  linkType: hard
+
+"mobx-react@npm:^7.1.0":
+  version: 7.1.0
+  resolution: "mobx-react@npm:7.1.0"
+  dependencies:
+    mobx-react-lite: ^3.2.0
+  peerDependencies:
+    mobx: ^6.1.0
+    react: ^16.8.0 || ^17
+  peerDependenciesMeta:
+    react-dom:
+      optional: true
+    react-native:
+      optional: true
+  checksum: 26fbe1047bacf8fa6ca0f25f45b811c873e35183a10beeedec9198a912cc4c46571a67bb04f25984fa1ee4124e24f70106ce9e9a972a60e42cab1aa833b5b46d
   languageName: node
   linkType: hard
 

@@ -11,7 +11,7 @@ const App = () => (
       <Filters />
       <Table />
     </MainContainer>
-    <ActionPopup title="приемка" />
+    <ActionPopup />
   </>
 );
 
