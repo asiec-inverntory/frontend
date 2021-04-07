@@ -5,11 +5,11 @@ import UiStore from 'stores/listing/UiStore';
 
 import { ContentContainer } from './styled';
 
-type ActionPopupTypes = {
+type StoreProps = {
   uiStore?: UiStore;
 };
 
-const ActionPopup = ({ uiStore }: ActionPopupTypes) => (
+const ActionPopup = ({ uiStore }: StoreProps) => (
   <Modal
     title={uiStore?.actionName}
     visible={uiStore?.isActionPopupOpen}
@@ -31,5 +31,7 @@ const ActionPopup = ({ uiStore }: ActionPopupTypes) => (
     </ContentContainer>
   </Modal>
 );
+
+ActionPopup.defaultProps = {} as StoreProps;
 
 export default inject('uiStore')(observer(ActionPopup));

@@ -7,15 +7,15 @@ import UiStore from 'stores/listing/UiStore';
 
 import { ActionBarContainer } from './styled';
 
-type ActionBarPropsType = {
-  uiStore?: UiStore;
+type StoreProps = {
+  uiStore: UiStore;
 }
 
-const ActionBar = ({ uiStore }: ActionBarPropsType) => {
+const ActionBar = ({ uiStore }: StoreProps) => {
   const handleOpenAction = (e: MouseEvent<HTMLElement>) => {
     const actionName = e.currentTarget.innerText;
 
-    uiStore?.openActionPopup(actionName);
+    uiStore.openActionPopup(actionName);
   };
 
   const overlay = (
@@ -40,5 +40,7 @@ const ActionBar = ({ uiStore }: ActionBarPropsType) => {
     </ActionBarContainer>
   );
 };
+
+ActionBar.defaultProps = {} as StoreProps;
 
 export default inject('uiStore')(ActionBar);

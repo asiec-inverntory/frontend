@@ -1,19 +1,22 @@
-import { useState } from 'react';
-
+import { inject, observer } from 'mobx-react';
 import { Menu, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+
+import PaginationStore from 'stores/listing/PaginationStore';
 
 export const generatePageSizeLabel = (pageSize: number): string => `${pageSize} / странице`;
 
 const pageSizes = [5, 10, 25, 50];
 
-const PageSizeSelect = () => {
-  const [currentPageSize, setCurrentPageSize] = useState(10);
+type StoreProps = {
+  paginationStore: PaginationStore;
+};
 
+const PageSizeSelect = ({ paginationStore }: StoreProps) => {
   const overlay = (
     <Menu>
       {pageSizes.map((pageSize) => (
-        <Menu.Item key={pageSize} onClick={() => setCurrentPageSize(pageSize)}>
+        <Menu.Item key={pageSize} onClick={() => paginationStore.setPageSize(pageSize)}>
           {generatePageSizeLabel(pageSize)}
         </Menu.Item>
       ))}
@@ -23,7 +26,7 @@ const PageSizeSelect = () => {
   return (
     <Dropdown overlay={overlay} trigger={['click']}>
       <Button>
-        {generatePageSizeLabel(currentPageSize)}
+        {generatePageSizeLabel(paginationStore.pageSize)}
         {' '}
         <DownOutlined />
       </Button>
@@ -31,4 +34,6 @@ const PageSizeSelect = () => {
   );
 };
 
-export default PageSizeSelect;
+PageSizeSelect.defaultProps = {} as StoreProps;
+
+export default (inject('paginationStore'))(observer(PageSizeSelect));
