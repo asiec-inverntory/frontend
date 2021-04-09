@@ -27,6 +27,10 @@ class DataStore {
   constructor(page: number, size: number) {
     makeAutoObservable(this);
 
+    this.fetchData(page, size);
+  }
+
+  fetchData = (page: number, size: number) => {
     get('/equipment/list', {
       page,
       size,
