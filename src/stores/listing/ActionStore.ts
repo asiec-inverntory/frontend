@@ -1,6 +1,8 @@
 import { makeAutoObservable } from 'mobx';
 import { nanoid } from 'nanoid';
 
+import { InventoryCode, SerialCode } from 'utils/types';
+
 type Property = {
   [key: string]: string | number;
 }
@@ -8,8 +10,8 @@ type Property = {
 type MaterialObject = {
   id: string;
   type: string;
-  serialNumber?: string;
-  inventoryNumber?: string;
+  serialCode?: SerialCode;
+  inventoryCode?: InventoryCode;
   properties?: Property;
   content?: MaterialObject[];
 }
@@ -29,7 +31,7 @@ class ActionStore {
       10: {
         id: '10',
         type: 'Оперативная память',
-        serialNumber: '1231231241241',
+        serialCode: '1231231241241',
       },
     },
     ids: ['10'],

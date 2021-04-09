@@ -3445,6 +3445,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/http-proxy@npm:^1.17.5":
+  version: 1.17.5
+  resolution: "@types/http-proxy@npm:1.17.5"
+  dependencies:
+    "@types/node": "*"
+  checksum: 21aefcc88273cb99474a7682209c795ee0dad15cc277b027ea504e65faab5cbb799b067662f7ae7c0255651bf9433a41811930c76f7561757f02f2c8262ee592
+  languageName: node
+  linkType: hard
+
+"@types/humps@npm:^2.0.0":
+  version: 2.0.0
+  resolution: "@types/humps@npm:2.0.0"
+  checksum: a683d07feecd00a0efc6a1d87ef2aa049acd04704741edcaeb14e93c181826dbf004b5f27342fe87382d190a6ee5bbc04d2a7f71bc83995359179cdddd1e6bdc
+  languageName: node
+  linkType: hard
+
 "@types/istanbul-lib-coverage@npm:*, @types/istanbul-lib-coverage@npm:^2.0.0, @types/istanbul-lib-coverage@npm:^2.0.1":
   version: 2.0.3
   resolution: "@types/istanbul-lib-coverage@npm:2.0.3"
@@ -3563,6 +3579,13 @@ __metadata:
   version: 1.5.4
   resolution: "@types/q@npm:1.5.4"
   checksum: 1a19cf2c41648b862bd25a4c26ba33dc7206f14fcf50c5b78031b59090d21176e703cd10aff8af409eafbefcebb288607d30af765ee3859637cf3fae6e875648
+  languageName: node
+  linkType: hard
+
+"@types/qs@npm:^6.9.6":
+  version: 6.9.6
+  resolution: "@types/qs@npm:6.9.6"
+  checksum: a5f3c4f6ad6de2692e710302f5f82fe8db3ec0de1a75ada02a432f75f64025a6e38d28fcc4ed146d3145017e1312cc5cb3d81a0f41a798ec0463b5f47f017963
   languageName: node
   linkType: hard
 
@@ -4698,7 +4721,9 @@ __metadata:
     "@testing-library/jest-dom": 5.11.10
     "@testing-library/react": 11.2.6
     "@testing-library/user-event": 13.1.1
+    "@types/humps": ^2.0.0
     "@types/lodash": 4.14.168
+    "@types/qs": ^6.9.6
     "@types/react": 17.0.3
     "@types/react-dom": ^17.0.3
     "@types/recompose": 0.30.7
@@ -4711,13 +4736,17 @@ __metadata:
     eslint-plugin-jsx-a11y: 6.4.1
     eslint-plugin-react: 7.23.1
     eslint-plugin-react-hooks: 4.2.0
+    http-proxy-middleware: ^1.1.0
+    humps: ^2.0.1
     husky: ^6.0.0
     mobx: 6.1.8
     mobx-react: ^7.1.0
     nanoid: ^3.1.22
     npm-run-all: 4.1.5
+    qs: ^6.10.1
     react: 17.0.2
     react-dom: 17.0.2
+    react-is: ^17.0.2
     react-mobx: 0.0.4
     react-scripts: 4.0.3
     styled-components: 5.2.3
@@ -9548,7 +9577,21 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
-"http-proxy@npm:^1.17.0":
+"http-proxy-middleware@npm:^1.1.0":
+  version: 1.1.0
+  resolution: "http-proxy-middleware@npm:1.1.0"
+  dependencies:
+    "@types/http-proxy": ^1.17.5
+    camelcase: ^6.2.0
+    http-proxy: ^1.18.1
+    is-glob: ^4.0.1
+    is-plain-obj: ^3.0.0
+    micromatch: ^4.0.2
+  checksum: 231bf80920f775c6df376816aac0842a50af183d7743ed2f46884c307435f030a1b3a83b2931bb07120a4e69f05ed74ec1f4bf90f465fcdbf74645069edd4066
+  languageName: node
+  linkType: hard
+
+"http-proxy@npm:^1.17.0, http-proxy@npm:^1.18.1":
   version: 1.18.1
   resolution: "http-proxy@npm:1.18.1"
   dependencies:
@@ -9600,6 +9643,13 @@ fsevents@~2.1.2:
   dependencies:
     ms: ^2.0.0
   checksum: 4a08769434132a229a6153e77c869a9fe7132dc003d90119d54958e7b75feb65a3c4eca19fb18921568878ac455b6f399013279ad33248d94bd61a25def1fdda
+  languageName: node
+  linkType: hard
+
+"humps@npm:^2.0.1":
+  version: 2.0.1
+  resolution: "humps@npm:2.0.1"
+  checksum: d7758bccbb073b93d5a714faf635f3fc622502364f1c7ca9db4bfe74fb61832f5c86cef5db37881bf6ca370a167bf19bc11033930248d1e3ef1a4545bcaae357
   languageName: node
   linkType: hard
 
@@ -10316,6 +10366,13 @@ fsevents@~2.1.2:
   version: 2.1.0
   resolution: "is-plain-obj@npm:2.1.0"
   checksum: 2314302f9140d1e9607731d523f207d8000281aebbabe0083210342c0758976f75f0f5db405e55910bd4dc9a04baddbeab9d476290642b5a0d31431cc9bda4b3
+  languageName: node
+  linkType: hard
+
+"is-plain-obj@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "is-plain-obj@npm:3.0.0"
+  checksum: 70a50b220133b82adf1302aa7efde74d6a2b734a6687b199c733491a4f724b69d1196a6c440238adcc767cc419e7dc02309af159ab21412f685893d36154eb2e
   languageName: node
   linkType: hard
 
@@ -14717,6 +14774,15 @@ fsevents@~2.1.2:
   languageName: node
   linkType: hard
 
+"qs@npm:^6.10.1":
+  version: 6.10.1
+  resolution: "qs@npm:6.10.1"
+  dependencies:
+    side-channel: ^1.0.4
+  checksum: 25e50a9107322027a998ba4eacec3df4b575c4f0a02cf0602002242d09ac997ab783384b6e90d6264a4d8387de3d17fb177d9c304a0dd9ec706a3087a069b204
+  languageName: node
+  linkType: hard
+
 "qs@npm:~6.5.2":
   version: 6.5.2
   resolution: "qs@npm:6.5.2"
@@ -15480,6 +15546,13 @@ fsevents@~2.1.2:
   version: 17.0.1
   resolution: "react-is@npm:17.0.1"
   checksum: 5a83dfc78e7adcb93d632bf367b0733db650e3abd2e9c57c33b87e50d201212c1884b0d7bcf13e692f1556189fa1b87f9f3e0ba10fe858fd6aebe83ed4fcd1ea
+  languageName: node
+  linkType: hard
+
+"react-is@npm:^17.0.2":
+  version: 17.0.2
+  resolution: "react-is@npm:17.0.2"
+  checksum: 3eff23f410d40ab9bc5177f147a92c7f42c356a21ecea340e0554566956d67e5e1ba56f26cc7fa22339ac3c7151744177bd6305eaa26d3cbf15f354358c9d9b6
   languageName: node
   linkType: hard
 
