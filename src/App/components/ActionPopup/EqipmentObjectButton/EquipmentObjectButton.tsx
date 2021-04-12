@@ -13,7 +13,7 @@ type PropsType = {
   onDelete: () => void;
 };
 
-const MaterialObjectButton = ({ type, serialCode, inventoryCode, onEdit, onDelete }: PropsType) => (
+const EquipmentObjectButton = ({ type, serialCode, inventoryCode, onEdit, onDelete }: PropsType) => (
   <Button style={{ height: '100%' }} block>
     <ButtonContentContainer>
       <Space direction="vertical" style={{ flex: 1 }}>
@@ -43,4 +43,4 @@ const MaterialObjectButton = ({ type, serialCode, inventoryCode, onEdit, onDelet
   </Button>
 );
 
-export default MaterialObjectButton;
+export default EquipmentObjectButton;

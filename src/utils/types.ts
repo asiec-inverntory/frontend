@@ -4,10 +4,9 @@ export type InventoryCode = string;
 
 export type SerialCode = string;
 
-export type AJAXGetQuery = {
+export type EquipmentListGetQueryType = {
   page: number;
-  size: number;
-  sortBy: string;
+  pageSize: number;
   [key: string]: number | string;
 }
 

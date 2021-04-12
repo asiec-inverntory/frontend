@@ -5,7 +5,7 @@ import ActionStore from 'stores/listing/ActionStore';
 import UiStore from 'stores/listing/UiStore';
 
 import { ContentContainer } from './styled';
-import MaterialObjectButton from './MaterialObjectButton';
+import EquipmentObjectButton from './EqipmentObjectButton';
 
 type StoreProps = {
   uiStore: UiStore;
@@ -13,7 +13,7 @@ type StoreProps = {
 };
 
 const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
-  const { materialObjects } = actionStore;
+  const { equipmentObjects } = actionStore;
 
   return (
     <Modal
@@ -24,10 +24,10 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
     >
       <ContentContainer>
         <Space direction="vertical" style={{ width: '100%' }}>
-          {materialObjects.ids.map((id) => (
+          {equipmentObjects.ids.map((id) => (
             <div key={id}>
-              <MaterialObjectButton
-                {...materialObjects.byIds[id]}
+              <EquipmentObjectButton
+                {...equipmentObjects.byIds[id]}
                 onEdit={() => console.log('edit button click')}
                 onDelete={() => console.log('delete button click')}
               />

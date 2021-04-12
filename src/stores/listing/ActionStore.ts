@@ -7,18 +7,18 @@ type Property = {
   [key: string]: string | number;
 }
 
-type MaterialObject = {
+type EquipmentObject = {
   id: string;
   type: string;
   serialCode?: SerialCode;
   inventoryCode?: InventoryCode;
   properties?: Property;
-  content?: MaterialObject[];
+  content?: EquipmentObject[];
 }
 
-type MaterialObjects = {
+type EquipmentObjects = {
   byIds: {
-    [id: string]: MaterialObject;
+    [id: string]: EquipmentObject;
   };
   ids: string[];
 }
@@ -26,7 +26,7 @@ type MaterialObjects = {
 class ActionStore {
   isLoading = false;
 
-  materialObjects: MaterialObjects = {
+  equipmentObjects: EquipmentObjects = {
     byIds: {
       10: {
         id: '10',
@@ -41,11 +41,11 @@ class ActionStore {
     makeAutoObservable(this);
   }
 
-  addNewMaterialObject = (type: string, materialObject: MaterialObject) => {
+  addNewEquipmentObject = (type: string, equipmentObject: EquipmentObject) => {
     const newId = nanoid();
 
-    this.materialObjects.ids.push(newId);
-    this.materialObjects.byIds[newId] = materialObject;
+    this.equipmentObjects.ids.push(newId);
+    this.equipmentObjects.byIds[newId] = equipmentObject;
   }
 }
 

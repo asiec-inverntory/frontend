@@ -1,24 +1,23 @@
 import qs from 'qs';
 
-import { AJAXGetQuery } from './types';
-
-const urlWithQuery = (url: string, query: AJAXGetQuery) => (
+const urlWithQuery = <T>(url: string, query: T) => (
   query
     ? `${url}?${qs.stringify(query)}`
     : url
 );
 
-const handleErrors = (response: Response) => {
-  if (!response.ok)
-    throw new Error(`${response.status}:${response.statusText}`);
+// const handleErrors = (response: Response) => {
+//   if (!response.ok)
+//     throw new Error(`${response.status}:${response.statusText}`);
 
-  return response;
-};
+//   return response;
+// };
 
-export const get = <T>(url: string, query: AJAXGetQuery): Promise<T> => (
+// if you don't understand what is <T> then google 'typescript generics'
+export const get = <T>(url: string, query: T): Promise<T> => (
   new Promise<T>((resolve) => {
-    fetch(urlWithQuery(url, query))
-      .then(handleErrors)
+    fetch(urlWithQuery<T>(url, query))
+      // .then(handleErrors)
       .then((resp) => resp.json())
       .then((body) => resolve(body));
   })
