@@ -3,6 +3,7 @@ import { reaction } from 'mobx';
 import ActionStore from './listing/ActionStore';
 import DataStore from './listing/DataStore';
 import PaginationStore from './listing/PaginationStore';
+import TypesStore from './listing/TypesStore';
 import UiStore from './listing/UiStore';
 
 const initializeStores = () => {
@@ -10,6 +11,7 @@ const initializeStores = () => {
   const paginationStore = new PaginationStore();
   const actionStore = new ActionStore();
   const dataStore = new DataStore(paginationStore.page, paginationStore.pageSize);
+  const typesStore = new TypesStore();
 
   reaction(
     () => ({
@@ -26,6 +28,7 @@ const initializeStores = () => {
     paginationStore,
     actionStore,
     dataStore,
+    typesStore,
   };
 };
 
