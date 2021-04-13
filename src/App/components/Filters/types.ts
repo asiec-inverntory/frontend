@@ -16,6 +16,6 @@ export type FiltersType = {
   ids: string[];
 }
 
-export type FiltersPropsType = {
+export type FiltersPropTypes = {
   filters: FiltersType;
 }

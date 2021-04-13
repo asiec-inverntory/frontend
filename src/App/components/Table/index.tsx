@@ -2,7 +2,7 @@ import ActionBar from './ActionBar';
 import Pagination from './Pagination';
 import { Container } from './styled';
 import Table from './Table';
-import { TablePropsType } from './types';
+import { TablePropTypes } from './types';
 
 type ExampleDataType = {
   name: string;
@@ -10,7 +10,7 @@ type ExampleDataType = {
   place: string;
 };
 
-const exampleStoreData: TablePropsType<ExampleDataType & { key: number | string }> = {
+const exampleStoreData: TablePropTypes<ExampleDataType & { key: number | string }> = {
   data: [
     {
       key: 1,

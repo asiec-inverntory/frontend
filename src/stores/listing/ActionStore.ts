@@ -3,8 +3,9 @@ import { nanoid } from 'nanoid';
 
 import { InventoryCode, SerialCode } from 'utils/types';
 
-type Property = {
-  [key: string]: string | number;
+export type Property = {
+  key: string
+  value: string | number;
 }
 
 type EquipmentObject = {
@@ -12,7 +13,7 @@ type EquipmentObject = {
   type: string;
   serialCode?: SerialCode;
   inventoryCode?: InventoryCode;
-  properties?: Property;
+  properties?: Property[];
   content?: EquipmentObject[];
 }
 
@@ -23,29 +24,33 @@ type EquipmentObjects = {
   ids: string[];
 }
 
+export type NewEquipmentObject = {
+  type: string;
+  serialCode: SerialCode;
+  properties?: Property[];
+  content?: EquipmentObject[];
+};
+
 class ActionStore {
   isLoading = false;
 
   equipmentObjects: EquipmentObjects = {
-    byIds: {
-      10: {
-        id: '10',
-        type: 'Оперативная память',
-        serialCode: '1231231241241',
-      },
-    },
-    ids: ['10'],
+    byIds: {},
+    ids: [],
   };
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  addNewEquipmentObject = (type: string, equipmentObject: EquipmentObject) => {
+  addNewEquipmentObject = (equipmentObject: NewEquipmentObject) => {
     const newId = nanoid();
 
     this.equipmentObjects.ids.push(newId);
-    this.equipmentObjects.byIds[newId] = equipmentObject;
+    this.equipmentObjects.byIds[newId] = {
+      ...equipmentObject,
+      id: nanoid(),
+    };
   }
 }
 

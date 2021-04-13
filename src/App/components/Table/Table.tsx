@@ -2,10 +2,10 @@ import { Table, Button } from 'antd';
 
 import { getLabelByKey } from 'utils/format';
 
-import { TablePropsType } from './types';
+import { TablePropTypes } from './types';
 import { TableContainer } from './styled';
 
-const TableComponent = <DataType extends { key: string | number }>({ data, columnKeys }: TablePropsType<DataType>) => (
+const TableComponent = <DataType extends { key: string | number }>({ data, columnKeys }: TablePropTypes<DataType>) => (
   <TableContainer>
     <Table dataSource={data} pagination={false}>
       {columnKeys.map((key) => (

@@ -6,11 +6,11 @@ import PaginationStore from 'stores/listing/PaginationStore';
 import PageSizeSelect from './PageSizeSelect';
 import { PaginationContainer } from './styled';
 
-type PaginationComponentPropsType = {
+type PaginationComponentPropTypes = {
   paginationStore?: PaginationStore;
 };
 
-const PaginationComponent = ({ paginationStore }: PaginationComponentPropsType) => (
+const PaginationComponent = ({ paginationStore }: PaginationComponentPropTypes) => (
   <PaginationContainer>
     <Space>
       <Pagination

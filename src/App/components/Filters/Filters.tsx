@@ -1,9 +1,9 @@
 import { Typography, Space, Select } from 'antd';
 
 import { FiltersContainer } from './styled';
-import { FiltersPropsType } from './types';
+import { FiltersPropTypes } from './types';
 
-const FiltersComponent = ({ filters }: FiltersPropsType) => (
+const FiltersComponent = ({ filters }: FiltersPropTypes) => (
   <FiltersContainer>
     <Space direction="vertical" size="large">
       <Typography.Text strong>

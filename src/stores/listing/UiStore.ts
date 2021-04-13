@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx';
 class UiStore {
   isActionPopupOpen = false;
 
+  isCreateNewObjectPopupOpen = false;
+
   actionName = '';
 
   constructor() {
@@ -16,6 +18,10 @@ class UiStore {
 
   closeActionPopup = () => {
     this.isActionPopupOpen = false;
+  }
+
+  handleCreateNewObjectPopupState = () => {
+    this.isCreateNewObjectPopupOpen = !this.isCreateNewObjectPopupOpen;
   }
 }
 
