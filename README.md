@@ -5,13 +5,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## How to start
 1) Set up the ASIEC_REMOTE_PROXY global variable which says where we should send requests
 2) Install yarn 2 (https://yarnpkg.com/getting-started/migration#step-by-step)
-3) Install dependencies
+3) Go to `.yarnrc.yml` file and add new line `nodeLinker: "node-modules"`
+How it should looks like:
+```
+yarnPath: ".yarn/releases/yarn-berry.cjs"
+nodeLinker: "node-modules"
+```
+4) Install dependencies
 
 ```sh
 yarn install
 ```
 
-4) Start the app
+5) Start the app
 
 ```sh
 yarn start
