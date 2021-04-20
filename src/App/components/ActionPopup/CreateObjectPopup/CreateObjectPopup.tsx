@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
-import { Form, InputNumber, Modal, Input } from 'antd';
+import { Form, InputNumber, Modal, Input, Select } from 'antd';
 import { inject } from 'mobx-react';
 import isNumber from 'lodash/isNumber';
 
-import InputWithSearch from 'App/components/InputWithSearch';
+import InputWithAutocomplete from 'App/components/InputWithAutocomplete';
 import TypesStore from 'stores/listing/TypesStore';
 import measureUnits from 'utils/measureUnits';
 import { NewEquipmentObject, Property } from 'stores/listing/ActionStore';
@@ -67,25 +67,38 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
         <Form.Item
           name="equipmentType"
           label="Тип предмета"
-          rules={[{ required: true }]}
+          rules={[{
+            required: true,
+            message: 'Пожалуйста, выберите тип предмета',
+          }]}
           style={{ marginBottom: selectedEquipmentType ? 18 : 0 }}
         >
-          <InputWithSearch
+          <Select
             value={selectedEquipmentType}
+            style={{ width: '100%' }}
             placeholder="Выберите тип нового предмета..."
-            values={types.ids.map((type) => ({
-              key: type,
-              value: types.humanReadableTypeNameById[type],
-            }))}
+            filterOption={(input, option) => option?.children.toLowerCase().includes(input.toLowerCase())}
             onChange={(value) => setSelectedEquipmentType(value)}
-          />
+          >
+            {types.ids.map((type) => {
+              const value = types.humanReadableTypeNameById[type];
+
+              return (
+                <Select.Option key={type} value={type}>
+                  {value}
+                </Select.Option>
+              );
+            })}
+          </Select>
         </Form.Item>
         {selectedEquipmentType && (
           <Form.Item
             name="serialCode"
             label="Серийный номер"
-            rules={[{ required: true }]}
-            style={{ marginBottom: selectedEquipmentType ? 18 : 0 }}
+            rules={[{
+              required: true,
+              message: 'Серийный номер не может быть пустым',
+            }]}
           >
             <Input />
           </Form.Item>
@@ -101,16 +114,13 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
               {values ? (
                 <Form.Item
                   name={id}
-                  rules={[{ required: true }]}
+                  rules={[{
+                    required: true,
+                    message: 'Поле не может быть пустым',
+                  }]}
                   label={defaultMeasureUnit ? `${humanReadable} (${measureUnit[defaultMeasureUnit]})` : humanReadable}
                 >
-                  <InputWithSearch
-                    values={values.map((value, i) => ({
-                      key: String(i),
-                      value: String(value),
-                    }))}
-                    placeholder="Выберите значение из списка..."
-                  />
+                  <InputWithAutocomplete values={values.map((value) => (String(value)))} />
                 </Form.Item>
               ) : null}
               {isInputNumber ? (
