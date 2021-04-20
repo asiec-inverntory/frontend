@@ -54,6 +54,15 @@ class ActionStore {
       id: nanoid(),
     };
   }
+
+  saveAllEquipmentObjects = () => {
+    this.clearAllEquipmentObjects();
+  }
+
+  clearAllEquipmentObjects = () => {
+    this.equipmentObjects.ids.length = 0;
+    this.equipmentObjects.byIds = {};
+  }
 }
 
 export default ActionStore;

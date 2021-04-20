@@ -20,11 +20,24 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
 
   const footer = (
     <Space direction="horizontal">
-      <Button danger onClick={() => uiStore.closeActionPopup()}>
+      <Button
+        danger
+        onClick={() => {
+          actionStore.clearAllEquipmentObjects();
+          uiStore.closeActionPopup();
+        }}
+      >
         Отмена
       </Button>
       <Tooltip title={isOKButtonDisabled ? 'Должен быть занесен хотя бы один предмет' : null}>
-        <Button type="primary" disabled={isOKButtonDisabled} >
+        <Button
+          type="primary"
+          disabled={isOKButtonDisabled}
+          onClick={() => {
+            actionStore.saveAllEquipmentObjects();
+            uiStore.closeActionPopup();
+          }}
+        >
           Сохранить
         </Button>
       </Tooltip>

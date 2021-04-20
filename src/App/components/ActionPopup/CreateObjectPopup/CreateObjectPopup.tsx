@@ -18,7 +18,7 @@ type CreateObjectPopupPropsType = StoreProps & {
   onCancel: () => void;
 };
 
-const CreateObjectPopup = ({ typesStore, onComplete }: CreateObjectPopupPropsType) => {
+const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPopupPropsType) => {
   const [form] = Form.useForm();
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string | undefined>(undefined);
   const { types } = typesStore;
@@ -46,6 +46,11 @@ const CreateObjectPopup = ({ typesStore, onComplete }: CreateObjectPopupPropsTyp
       visible
       centered
       closable={false}
+      okText="Закончить"
+      onCancel={() => onCancel()}
+      cancelButtonProps={{
+        danger: true,
+      }}
       okButtonProps={{
         form: 'create-new-object-form',
         htmlType: 'submit',
