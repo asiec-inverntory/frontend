@@ -1,5 +1,6 @@
-import { Modal, Button, Space, Tooltip } from 'antd';
+import { Modal, Button, Space, Tooltip, Typography } from 'antd';
 import { inject, observer } from 'mobx-react';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import ActionStore from 'stores/listing/ActionStore';
 import UiStore from 'stores/listing/UiStore';
@@ -18,15 +19,34 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
 
   const isOKButtonDisabled = equipmentObjects.ids.length === 0;
 
+  const handleCancel = () => {
+    actionStore.clearAllEquipmentObjects();
+    uiStore.closeActionPopup();
+  };
+
+  const showConfirm = () => Modal.confirm({
+    icon: <ExclamationCircleOutlined />,
+    content: (
+      <>
+        <Typography.Title level={5}>
+          Вы уверены?
+        </Typography.Title>
+        <Typography.Text>
+          Это действие удалит все добавленные предметы
+        </Typography.Text>
+      </>
+    ),
+    onOk() {
+      actionStore.clearAllEquipmentObjects();
+      uiStore.closeActionPopup();
+    },
+    okText: 'Да',
+    cancelText: 'Нет',
+  });
+
   const footer = (
     <Space direction="horizontal">
-      <Button
-        danger
-        onClick={() => {
-          actionStore.clearAllEquipmentObjects();
-          uiStore.closeActionPopup();
-        }}
-      >
+      <Button danger onClick={() => (isOKButtonDisabled ? handleCancel() : showConfirm())}>
         Отмена
       </Button>
       <Tooltip title={isOKButtonDisabled ? 'Должен быть занесен хотя бы один предмет' : null}>
