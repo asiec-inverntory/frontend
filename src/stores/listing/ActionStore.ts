@@ -10,6 +10,7 @@ export type Property = {
 
 type EquipmentObject = {
   id: string;
+  label: string;
   type: string;
   serialCode?: SerialCode;
   inventoryCode?: InventoryCode;
@@ -25,6 +26,7 @@ type EquipmentObjects = {
 }
 
 export type NewEquipmentObject = {
+  label: string;
   type: string;
   serialCode: SerialCode;
   properties?: Property[];

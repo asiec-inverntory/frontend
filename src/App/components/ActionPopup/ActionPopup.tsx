@@ -15,6 +15,7 @@ type StoreProps = {
 
 const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
   const { equipmentObjects } = actionStore;
+
   const isOKButtonDisabled = equipmentObjects.ids.length === 0;
 
   const footer = (

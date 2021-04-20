@@ -31,7 +31,8 @@ const CreateObjectPopup = ({ typesStore, onComplete }: CreateObjectPopupPropsTyp
       value: values[key],
     })));
     const newObject: NewEquipmentObject = {
-      type: types.humanReadableTypeNameById[values.equipmentType],
+      label: types.humanReadableTypeNameById[values.equipmentType],
+      type: values.equipmentType,
       serialCode: values.serialCode,
       properties,
     };

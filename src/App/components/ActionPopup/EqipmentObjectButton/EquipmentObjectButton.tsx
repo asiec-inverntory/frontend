@@ -6,19 +6,19 @@ import { InventoryCode, SerialCode } from 'utils/types';
 import { ButtonContentContainer, IconsContainer, Button } from './styled';
 
 type PropTypes = {
-  type: string;
+  label: string;
   serialCode?: SerialCode;
   inventoryCode?: InventoryCode;
   onEdit: () => void;
   onDelete: () => void;
 };
 
-const EquipmentObjectButton = ({ type, serialCode, inventoryCode, onEdit, onDelete }: PropTypes) => (
+const EquipmentObjectButton = ({ label, serialCode, inventoryCode, onEdit, onDelete }: PropTypes) => (
   <Button style={{ height: '100%' }} block>
     <ButtonContentContainer>
       <Space direction="vertical" style={{ flex: 1 }}>
         <Typography.Text>
-          {type}
+          {label}
         </Typography.Text>
         {serialCode &&
           <Typography.Text type="secondary">
