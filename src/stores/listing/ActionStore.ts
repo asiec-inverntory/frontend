@@ -8,7 +8,7 @@ export type Property = {
   value: string | number;
 }
 
-type EquipmentObject = {
+export type EquipmentObject = {
   id: string;
   label: string;
   type: string;

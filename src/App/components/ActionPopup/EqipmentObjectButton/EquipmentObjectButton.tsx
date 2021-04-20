@@ -1,14 +1,11 @@
 import { Space, Typography } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
-import { InventoryCode, SerialCode } from 'utils/types';
+import { EquipmentObject } from 'stores/listing/ActionStore';
 
 import { ButtonContentContainer, IconsContainer, Button } from './styled';
 
-type PropTypes = {
-  label: string;
-  serialCode?: SerialCode;
-  inventoryCode?: InventoryCode;
+type PropTypes = EquipmentObject & {
   onEdit: () => void;
   onDelete: () => void;
 };
