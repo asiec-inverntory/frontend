@@ -2,39 +2,63 @@ import { useState } from 'react';
 
 import { Form, Modal, Input, Select } from 'antd';
 import { inject } from 'mobx-react';
+import keyBy from 'lodash/keyBy';
+import mapValues from 'lodash/mapValues';
 
 import InputWithAutocomplete from 'App/components/InputWithAutocomplete';
 import TypesStore from 'stores/listing/TypesStore';
 import measureUnits from 'utils/measureUnits';
-import { NewEquipmentObject, Property } from 'stores/listing/ActionStore';
+import { EquipmentObject, NewEquipmentObject, Property } from 'stores/listing/ActionStore';
 
 type StoreProps = {
   typesStore: TypesStore;
 };
 
 type CreateObjectPopupPropsType = StoreProps & {
+  equipmentObject: EquipmentObject | undefined;
   onComplete: (values: NewEquipmentObject) => void;
+  onEdit: (id: string, values: EquipmentObject) => void;
   onCancel: () => void;
 };
 
-const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPopupPropsType) => {
+const CreateObjectPopup = ({
+  typesStore,
+  equipmentObject,
+  onComplete,
+  onEdit,
+  onCancel,
+}: CreateObjectPopupPropsType) => {
   const [form] = Form.useForm();
-  const [selectedEquipmentType, setSelectedEquipmentType] = useState<string | undefined>(undefined);
+
+  const propertiesById = keyBy(equipmentObject?.properties, (item) => item.key);
+  const initialValues = mapValues(propertiesById, (item) => item.value);
+
+  const [selectedEquipmentType, setSelectedEquipmentType] = useState<string | undefined>(equipmentObject?.type);
   const { types } = typesStore;
 
   const handleComplete = (values: { [key: string]: string }) => {
     const properties: Property[] = [];
 
-    Object.keys(values).map((key) => (properties.push({
-      key,
-      value: values[key],
-    })));
+    Object.keys(values).map((key) =>
+      properties.push({
+        key,
+        value: values[key],
+      }));
     const newObject: NewEquipmentObject = {
       label: types.humanReadableTypeNameById[values.equipmentType],
       type: values.equipmentType,
       serialCode: values.serialCode,
       properties,
     };
+
+    if (equipmentObject) {
+      onEdit(equipmentObject.id, {
+        ...newObject,
+        id: equipmentObject.id,
+      });
+
+      return;
+    }
 
     onComplete(newObject);
   };
@@ -59,6 +83,7 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
         id="create-new-object-form"
         form={form}
         name="create-new-object"
+        initialValues={initialValues}
         labelCol={{ span: 7 }}
         layout="horizontal"
         onFinish={(values) => handleComplete(values)}
@@ -66,10 +91,12 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
         <Form.Item
           name="equipmentType"
           label="Тип предмета"
-          rules={[{
-            required: true,
-            message: 'Пожалуйста, выберите тип предмета',
-          }]}
+          rules={[
+            {
+              required: true,
+              message: 'Пожалуйста, выберите тип предмета',
+            },
+          ]}
           style={{ marginBottom: selectedEquipmentType ? 18 : 0 }}
         >
           <Select
@@ -94,36 +121,41 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
           <Form.Item
             name="serialCode"
             label="Серийный номер"
-            rules={[{
-              required: true,
-              message: 'Серийный номер не может быть пустым',
-            }]}
+            rules={[
+              {
+                required: true,
+                message: 'Серийный номер не может быть пустым',
+              },
+            ]}
           >
             <Input />
           </Form.Item>
         )}
-        {selectedEquipmentType && types.byIds[selectedEquipmentType].map((attribute) => {
-          const { id, humanReadable, values } = attribute;
-          const measureUnit = measureUnits[selectedEquipmentType][attribute.id];
-          const defaultMeasureUnit = measureUnit?.default;
+        {selectedEquipmentType &&
+          types.byIds[selectedEquipmentType].map((attribute) => {
+            const { id, humanReadable, values } = attribute;
+            const measureUnit = measureUnits[selectedEquipmentType][attribute.id];
+            const defaultMeasureUnit = measureUnit?.default;
 
-          return (
-            <Form.Item noStyle key={id}>
-              {values ? (
-                <Form.Item
-                  name={id}
-                  rules={[{
-                    required: true,
-                    message: 'Поле не может быть пустым',
-                  }]}
-                  label={defaultMeasureUnit ? `${humanReadable} (${measureUnit[defaultMeasureUnit]})` : humanReadable}
-                >
-                  <InputWithAutocomplete values={values.map((value) => (String(value)))} />
-                </Form.Item>
-              ) : null}
-            </Form.Item>
-          );
-        })}
+            return (
+              <Form.Item noStyle key={id}>
+                {values ? (
+                  <Form.Item
+                    name={id}
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Поле не может быть пустым',
+                      },
+                    ]}
+                    label={defaultMeasureUnit ? `${humanReadable} (${measureUnit[defaultMeasureUnit]})` : humanReadable}
+                  >
+                    <InputWithAutocomplete values={values.map((value) => String(value))} />
+                  </Form.Item>
+                ) : null}
+              </Form.Item>
+            );
+          })}
       </Form>
     </Modal>
   );

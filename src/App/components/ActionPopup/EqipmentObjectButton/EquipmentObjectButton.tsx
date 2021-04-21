@@ -6,11 +6,11 @@ import { EquipmentObject } from 'stores/listing/ActionStore';
 import { ButtonContentContainer, IconsContainer, Button } from './styled';
 
 type PropTypes = EquipmentObject & {
-  onEdit: () => void;
-  onDelete: () => void;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
 };
 
-const EquipmentObjectButton = ({ label, serialCode, inventoryCode, onEdit, onDelete }: PropTypes) => (
+const EquipmentObjectButton = ({ id, label, serialCode, inventoryCode, onEdit, onDelete }: PropTypes) => (
   <Button style={{ height: '100%' }} block>
     <ButtonContentContainer>
       <Space direction="vertical" style={{ flex: 1 }}>
@@ -32,10 +32,10 @@ const EquipmentObjectButton = ({ label, serialCode, inventoryCode, onEdit, onDel
       </Space>
       <IconsContainer>
         <EditOutlined
-          onClick={() => onEdit()}
+          onClick={() => onEdit(id)}
         />
         <DeleteOutlined
-          onClick={() => onDelete()}
+          onClick={() => onDelete(id)}
         />
       </IconsContainer>
     </ButtonContentContainer>

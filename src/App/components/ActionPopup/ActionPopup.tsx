@@ -66,11 +66,16 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
 
   const content = uiStore.isCreateNewObjectPopupOpen ? (
     <CreateObjectPopup
+      equipmentObject={actionStore.edittingEquipmentObject}
       onComplete={(values) => {
         actionStore.addNewEquipmentObject(values);
         uiStore.handleCreateNewObjectPopupState();
       }}
       onCancel={() => uiStore.handleCreateNewObjectPopupState()}
+      onEdit={(equipmentId, values) => {
+        actionStore.editEquipmentObject(equipmentId, values);
+        uiStore.handleCreateNewObjectPopupState();
+      }}
     />
   ) : (
     <Modal
@@ -86,8 +91,11 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
             <div key={id}>
               <EquipmentObjectButton
                 {...equipmentObjects.byIds[id]}
-                onEdit={() => console.log('edit button click')}
-                onDelete={() => console.log('delete button click')}
+                onEdit={(equipmentId) => {
+                  uiStore.handleCreateNewObjectPopupState();
+                  actionStore.edittingObjectId = equipmentId;
+                }}
+                onDelete={(equipmentId) => actionStore.deleteEquipmentObject(equipmentId)}
               />
             </div>
           ))}
