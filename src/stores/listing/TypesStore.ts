@@ -46,7 +46,7 @@ class TypesStore {
             id: 'amount',
             humanReadable: 'Объем',
             valueType: 'range',
-            values: [512, 1024, 2048, 4096, 8192, 16384, 32768],
+            values: [512, 1024, 2048, 4096, 8192, 16384],
           },
           {
             id: 'manufacturer',

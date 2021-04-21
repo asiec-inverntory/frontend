@@ -1,8 +1,7 @@
 import { useState } from 'react';
 
-import { Form, InputNumber, Modal, Input, Select } from 'antd';
+import { Form, Modal, Input, Select } from 'antd';
 import { inject } from 'mobx-react';
-import isNumber from 'lodash/isNumber';
 
 import InputWithAutocomplete from 'App/components/InputWithAutocomplete';
 import TypesStore from 'stores/listing/TypesStore';
@@ -104,10 +103,9 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
           </Form.Item>
         )}
         {selectedEquipmentType && types.byIds[selectedEquipmentType].map((attribute) => {
-          const { id, humanReadable, values, min, max } = attribute;
+          const { id, humanReadable, values } = attribute;
           const measureUnit = measureUnits[selectedEquipmentType][attribute.id];
           const defaultMeasureUnit = measureUnit?.default;
-          const isInputNumber = isNumber(min && max);
 
           return (
             <Form.Item noStyle key={id}>
@@ -122,9 +120,6 @@ const CreateObjectPopup = ({ typesStore, onComplete, onCancel }: CreateObjectPop
                 >
                   <InputWithAutocomplete values={values.map((value) => (String(value)))} />
                 </Form.Item>
-              ) : null}
-              {isInputNumber ? (
-                <InputNumber min={min} max={max} defaultValue={1} />
               ) : null}
             </Form.Item>
           );
