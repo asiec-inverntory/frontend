@@ -10,6 +10,7 @@
     "eject": "react-scripts eject",
     "lint-js": "./node_modules/.bin/eslint ./src --ext .js,.jsx,.ts,.tsx",
     "lint-styled": "stylelint src/**/styled.ts",
+    "fix-styled-lint": "stylelint --fix src/**/styled.ts",
     "lint": "npm-run-all lint-js lint-styled",
     "postinstall": "husky install"
   },
