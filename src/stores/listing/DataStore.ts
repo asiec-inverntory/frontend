@@ -30,11 +30,13 @@ class DataStore {
     this.fetchData(page, size);
   }
 
-  fetchData = (page: number, pageSize: number) => {
-    get('equipment/list', {
+  fetchData = async(page: number, pageSize: number) => {
+    const data: Data[] = await get('equipment/list', {
       page,
       pageSize,
     });
+
+    this.data = data;
   }
 }
 

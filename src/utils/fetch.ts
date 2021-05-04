@@ -25,9 +25,9 @@ const handlePostResponse = (resp: Response) => {
 //   return response;
 // };
 
-export const get = (url: string, query: any): Promise<any> => (
+export const get = (url: string, query?: any): Promise<any> => (
   new Promise<any>((resolve) => {
-    fetch(urlWithQuery<any>(url, query))
+    fetch(query ? urlWithQuery<any>(url, query) : url)
       // .then(handleErrors)
       .then((resp) => resp.json())
       .then((body) => resolve(body));

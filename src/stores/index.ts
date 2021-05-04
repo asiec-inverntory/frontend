@@ -10,8 +10,8 @@ const initializeStores = () => {
   const uiStore = new UiStore();
   const paginationStore = new PaginationStore();
   const actionStore = new ActionStore();
-  const dataStore = new DataStore(paginationStore.page, paginationStore.pageSize);
   const typesStore = new TypesStore();
+  const dataStore = new DataStore(paginationStore.page, paginationStore.pageSize);
 
   reaction(
     () => ({

@@ -1,4 +1,9 @@
+import { get } from 'utils/fetch';
 import { EquipmentTypeValueType } from 'utils/types';
+
+type ByIdsType = {
+  [key: string]: EquipmentType[];
+}
 
 type EquipmentType = {
   id: string;
@@ -7,19 +12,22 @@ type EquipmentType = {
   valueType: EquipmentTypeValueType;
   humanReadable: string;
   values?: (string | number)[];
-  min?: number;
-  max?: number;
+  minimum?: number;
+  maximum?: number;
 }
 
 type EquipmentTypesDataType = {
-  byIds: {
-    [key: string]: EquipmentType[];
-  },
+  byIds: ByIdsType,
   ids: string[];
   humanReadableTypeNameById: {
     [key: string]: string;
   };
 }
+
+type DataType = [
+  { [key: string]: EquipmentType[]; },
+  { [key: string]: string; }
+]
 
 class TypesStore {
   types: EquipmentTypesDataType = {
@@ -32,43 +40,29 @@ class TypesStore {
     this.fetchTypes();
   }
 
-  fetchTypes = () => {
-    const fakeData: EquipmentTypesDataType = {
-      byIds: {
-        ram: [
-          {
-            id: 'type',
-            humanReadable: 'Тип',
-            valueType: 'string',
-            values: ['DDR2', 'DDR3', 'DDR4'],
-          },
-          {
-            id: 'amount',
-            humanReadable: 'Объем',
-            valueType: 'range',
-            values: [512, 1024, 2048, 4096, 8192, 16384],
-          },
-          {
-            id: 'manufacturer',
-            humanReadable: 'Производитель',
-            valueType: 'string',
-            values: ['Kingston', 'Corsair', 'Hynix'],
-          },
-          {
-            id: 'model',
-            humanReadable: 'Модель',
-            valueType: 'string',
-            values: ['1AP234', '24S3', '10FFS1'],
-          },
-        ],
-      },
-      ids: ['ram'],
-      humanReadableTypeNameById: {
-        ram: 'Оперативная память',
-      },
+  fetchTypes = async() => {
+    const data: DataType = await get('attribute/list');
+
+    const humanReadableTypeNameById = data[1];
+    const ids = Object.keys(humanReadableTypeNameById);
+    let byIds: ByIdsType = {};
+
+    ids.map((id) => {
+      const properties = data[0][id];
+
+      byIds = {
+        ...byIds,
+        [id]: properties,
+      };
+    });
+
+    const newState: EquipmentTypesDataType = {
+      byIds,
+      ids,
+      humanReadableTypeNameById,
     };
 
-    this.types = fakeData;
+    this.types = newState;
   }
 }
 
