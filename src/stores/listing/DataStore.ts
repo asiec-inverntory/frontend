@@ -1,7 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 
 import { get } from 'utils/fetch';
-import { DataId, OrderDirection, EquipmentListGetQueryType } from 'utils/types';
+import { DataId, OrderDirection } from 'utils/types';
 
 type FieldWithIdAndValue = {
   id: DataId;
@@ -31,7 +31,7 @@ class DataStore {
   }
 
   fetchData = (page: number, pageSize: number) => {
-    get<EquipmentListGetQueryType>('equipment/list', {
+    get('equipment/list', {
       page,
       pageSize,
     });

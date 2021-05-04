@@ -3,6 +3,7 @@ import { nanoid } from 'nanoid';
 import pull from 'lodash/pull';
 
 import { InventoryCode, SerialCode } from 'utils/types';
+import { post } from 'utils/fetch';
 
 export type Property = {
   key: string
@@ -76,6 +77,7 @@ class ActionStore {
   }
 
   saveAllEquipmentObjects = () => {
+    post('equipment/receiving', this.generateQuery());
     this.clearAllEquipmentObjects();
   }
 
@@ -117,6 +119,20 @@ class ActionStore {
       state: this.equipmentObjects,
       actionName: this.actionName,
     }));
+  }
+
+  generateQuery = () => {
+    const queryByIds = this.equipmentObjects.ids.map((id) => {
+      const equipment = this.equipmentObjects.byIds[id];
+
+      return {
+        type: equipment.type,
+        serialCode: equipment.serialCode,
+        properties: equipment.properties,
+      };
+    });
+
+    return queryByIds;
   }
 }
 
