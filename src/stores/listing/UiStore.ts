@@ -5,14 +5,11 @@ class UiStore {
 
   isCreateNewObjectPopupOpen = false;
 
-  actionName = '';
-
   constructor() {
     makeAutoObservable(this);
   }
 
-  openActionPopup = (actionName: string) => {
-    this.actionName = actionName;
+  openActionPopup = () => {
     this.isActionPopupOpen = true;
   }
 

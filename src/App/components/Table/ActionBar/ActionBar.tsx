@@ -1,21 +1,56 @@
-import { MouseEvent } from 'react';
+import { MouseEvent, useState } from 'react';
 
-import { Menu, Dropdown, Button, Input } from 'antd';
-import { inject } from 'mobx-react';
+import { Menu, Dropdown, Button, Input, Modal, Typography } from 'antd';
+import { inject, observer } from 'mobx-react';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 import UiStore from 'stores/listing/UiStore';
+import ActionStore from 'stores/listing/ActionStore';
 
 import { ActionBarContainer } from './styled';
 
 type StoreProps = {
   uiStore: UiStore;
+  actionStore: ActionStore;
 }
 
-const ActionBar = ({ uiStore }: StoreProps) => {
+const ActionBar = ({ uiStore, actionStore }: StoreProps) => {
+  const [newActionName, setNewActionName] = useState('');
+
+  const showConfirm = () => {
+    Modal.confirm({
+      icon: <ExclamationCircleOutlined />,
+      content: (
+        <>
+          <Typography.Title level={5}>
+            Вы уверены?
+          </Typography.Title>
+          <Typography.Text>
+            Это отменит все незавершенные действия
+          </Typography.Text>
+        </>
+      ),
+      onOk() {
+        actionStore.actionName = newActionName;
+        actionStore.removeIncompleteAction();
+        uiStore.openActionPopup();
+      },
+      okText: 'Да',
+      cancelText: 'Нет',
+    });
+  };
+
   const handleOpenAction = (e: MouseEvent<HTMLElement>) => {
     const actionName = e.currentTarget.innerText;
 
-    uiStore.openActionPopup(actionName);
+    setNewActionName(actionName);
+
+    if (actionStore.isActionIncomplete) {
+      showConfirm();
+    } else {
+      actionStore.actionName = newActionName;
+      uiStore.openActionPopup();
+    }
   };
 
   const overlay = (
@@ -43,4 +78,4 @@ const ActionBar = ({ uiStore }: StoreProps) => {
 
 ActionBar.defaultProps = {} as StoreProps;
 
-export default inject('uiStore')(ActionBar);
+export default inject('uiStore', 'actionStore')(observer(ActionBar));

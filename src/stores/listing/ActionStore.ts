@@ -1,4 +1,4 @@
-import { makeAutoObservable, toJS } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import { nanoid } from 'nanoid';
 import pull from 'lodash/pull';
 
@@ -33,82 +33,28 @@ class ActionStore {
   isLoading = false;
 
   equipmentObjects: EquipmentObjects = {
-    byIds: {
-      oof1: {
-        label: 'Оперативная память',
-        type: 'ram',
-        serialCode: 'as',
-        properties: [
-          {
-            key: 'equipmentType',
-            value: 'ram',
-          },
-          {
-            key: 'serialCode',
-            value: 'as',
-          },
-          {
-            key: 'type',
-            value: 'DDR2',
-          },
-          {
-            key: 'amount',
-            value: '1024',
-          },
-          {
-            key: 'manufacturer',
-            value: 'Corsair',
-          },
-          {
-            key: 'model',
-            value: '1AP234',
-          },
-        ],
-        id: 'oof1',
-      },
-      oof2: {
-        label: 'Оперативная память',
-        type: 'ram',
-        serialCode: 'as',
-        properties: [
-          {
-            key: 'equipmentType',
-            value: 'ram',
-          },
-          {
-            key: 'serialCode',
-            value: 'as',
-          },
-          {
-            key: 'type',
-            value: 'DDR2',
-          },
-          {
-            key: 'amount',
-            value: '1024',
-          },
-          {
-            key: 'manufacturer',
-            value: 'Corsair',
-          },
-          {
-            key: 'model',
-            value: '1AP234',
-          },
-        ],
-        id: 'oof2',
-      },
-    },
-    ids: [
-      'oof1',
-      'oof2',
-    ],
+    byIds: {},
+    ids: [],
   };
 
   edittingObjectId = '';
 
+  isActionIncomplete = false;
+
+  actionName = '';
+
+  incompletedAction = localStorage.getItem('incompleted_action');
+
   constructor() {
     makeAutoObservable(this);
+
+    this.isActionIncomplete = this.incompletedAction !== null;
+
+    if (this.incompletedAction !== null) {
+      const parsedIncompletedAction = JSON.parse(this.incompletedAction);
+
+      this.actionName = parsedIncompletedAction.actionName;
+    }
   }
 
   get edittingEquipmentObject() {
@@ -118,31 +64,59 @@ class ActionStore {
   addNewEquipmentObject = (equipmentObject: NewEquipmentObject) => {
     const newId = nanoid();
 
-    this.equipmentObjects.ids.push(newId);
-    this.equipmentObjects.byIds[newId] = {
+    const equipmentObjectWithId = {
       ...equipmentObject,
-      id: nanoid(),
+      id: newId,
     };
 
-    toJS(this.equipmentObjects);
+    this.equipmentObjects.ids.push(newId);
+    this.equipmentObjects.byIds[newId] = equipmentObjectWithId;
+
+    this.saveIncompleteActionState();
   }
 
   saveAllEquipmentObjects = () => {
     this.clearAllEquipmentObjects();
   }
 
+  // used when user cancel action popup
   clearAllEquipmentObjects = () => {
     this.equipmentObjects.ids.length = 0;
     this.equipmentObjects.byIds = {};
+
+    this.removeIncompleteAction();
   }
 
   deleteEquipmentObject = (id: string) => {
     delete this.equipmentObjects.byIds[id];
     pull(this.equipmentObjects.ids, id);
+    this.saveIncompleteActionState();
   }
 
   editEquipmentObject = (id: string, equipmentObject: EquipmentObject) => {
     this.equipmentObjects.byIds[id] = equipmentObject;
+    this.saveIncompleteActionState();
+  }
+
+  openIncompleteAction = () => {
+    if (!this.incompletedAction) return;
+
+    const parsedIncompletedAction = JSON.parse(this.incompletedAction);
+
+    this.equipmentObjects = parsedIncompletedAction.state;
+    this.actionName = parsedIncompletedAction.actionName;
+  }
+
+  removeIncompleteAction = () => {
+    localStorage.removeItem('incompleted_action');
+    this.isActionIncomplete = false;
+  }
+
+  saveIncompleteActionState = () => {
+    localStorage.setItem('incompleted_action', JSON.stringify({
+      state: this.equipmentObjects,
+      actionName: this.actionName,
+    }));
   }
 }
 
