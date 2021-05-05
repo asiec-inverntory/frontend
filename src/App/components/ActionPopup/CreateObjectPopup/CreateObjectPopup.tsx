@@ -37,17 +37,18 @@ const CreateObjectPopup = ({
   const { types } = typesStore;
 
   const handleComplete = (values: { [key: string]: string }) => {
-    const properties: Property[] = [];
+    if (!selectedEquipmentType) return;
+    const propertyKeys = types.byIds[selectedEquipmentType].map((type) => type.id);
+    const properties: Property[] = propertyKeys.map((key) => ({
+      key,
+      value: values[key],
+    }));
 
-    Object.keys(values).map((key) =>
-      properties.push({
-        key,
-        value: values[key],
-      }));
     const newObject: NewEquipmentObject = {
       label: types.humanReadableTypeNameById[values.equipmentType],
       type: values.equipmentType,
-      serialCode: values.serialCode,
+      serialCode: values?.serialCode,
+      inventoryCode: values?.inventoryCode,
       properties,
     };
 
