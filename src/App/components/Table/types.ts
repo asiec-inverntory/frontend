@@ -1,4 +1,1 @@
-export type TablePropTypes<DataType> = {
-  data: DataType[];
-  columnKeys: string[];
-}
+export type ColumnsKeys = 'name' | 'responsible' | 'room';

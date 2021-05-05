@@ -5,24 +5,27 @@ import { DataId, OrderDirection } from 'utils/types';
 
 type FieldWithIdAndValue = {
   id: DataId;
+  humanReadable: string;
 }
 
-type Data = {
+export type DataType = {
   id: DataId;
   name: string;
-  type: string;
-  inventoryCode?: string;
-  serialCode?: string;
-  room: FieldWithIdAndValue;
+  inventoryCode: string | null;
+  serialCode: string | null;
+  room: FieldWithIdAndValue | null;
+  responsible: FieldWithIdAndValue| null;
   characteristics: string[];
 }
 
 class DataStore {
-  data: Data[] = [];
+  data: DataType[] = [];
 
   orderBy = 'name';
 
   orderDirection: OrderDirection = -1;
+
+  isLoading = true;
 
   constructor(page: number, size: number) {
     makeAutoObservable(this);
@@ -31,12 +34,14 @@ class DataStore {
   }
 
   fetchData = async(page: number, pageSize: number) => {
-    const data: Data[] = await get('equipment/list', {
+    this.isLoading = true;
+    const data: DataType[] = await get('equipment/list', {
       page,
       pageSize,
     });
 
     this.data = data;
+    this.isLoading = false;
   }
 }
 

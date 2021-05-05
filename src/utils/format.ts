@@ -11,7 +11,7 @@ export const getLabelByKey = (key: string): string => {
     case 'responsible':
       result = 'Ответственный';
       break;
-    case 'place':
+    case 'room':
       result = 'Местонахождение';
       break;
     case 'type':
