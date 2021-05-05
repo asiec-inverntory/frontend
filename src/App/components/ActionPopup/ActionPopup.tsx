@@ -112,7 +112,7 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
         </Modal>
       )}
       <CSSTransition
-        in={actionStore.isActionIncomplete}
+        in={actionStore.isActionIncomplete && !uiStore.isActionPopupOpen}
         timeout={200}
         classNames="notification-pill"
         unmountOnExit
