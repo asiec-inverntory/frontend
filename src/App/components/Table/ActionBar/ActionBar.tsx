@@ -48,7 +48,7 @@ const ActionBar = ({ uiStore, actionStore }: StoreProps) => {
     if (actionStore.isActionIncomplete) {
       showConfirm();
     } else {
-      actionStore.actionName = newActionName;
+      actionStore.actionName = actionName;
       uiStore.openActionPopup();
     }
   };
