@@ -30,7 +30,7 @@ const TableComponent = ({ dataStore }: StoreProps) => {
 
   return (
     <TableContainer>
-      <Table dataSource={parsedData} pagination={false}>
+      <Table dataSource={parsedData} pagination={false} loading={dataStore.isLoading}>
         {columnKeys.map((key) => (
           <Table.Column
             title={getLabelByKey(key)}
