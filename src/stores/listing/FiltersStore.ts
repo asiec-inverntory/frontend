@@ -1,0 +1,69 @@
+import isArray from 'lodash/isArray';
+import isObject from 'lodash/isObject';
+import set from 'lodash/set';
+import difference from 'lodash/difference';
+import { makeAutoObservable } from 'mobx';
+
+export type FilterValuesType = string | number | (string | number)[] | [number, number];
+type FilterPropertiesType = Record<string, FilterValuesType>;
+type ActiveFiltersType = Record<string, FilterPropertiesType | FilterValuesType>;
+
+class Filters {
+  activeFilters: ActiveFiltersType = {};
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  handleTypeFilterChange = (value: FilterValuesType) => {
+    const { type } = this.activeFilters;
+
+    if (isObject(type)) return;
+
+    const newTypes = isArray(value) ? value : [value];
+    const currentTypes = isArray(type) ? type : [type];
+
+    if (newTypes.length > currentTypes.length) return;
+
+    const deletedKey = difference(currentTypes, newTypes);
+
+    delete this.activeFilters[deletedKey[0]];
+  }
+
+  handleFilterChange = (filterKey: string, value: FilterValuesType, propertyFilterKey?: string) => {
+    if (filterKey === 'type') this.handleTypeFilterChange(value);
+
+    if (isArray(value) && value.length === 0) {
+      this.removeFilterKey(filterKey, propertyFilterKey);
+
+      return;
+    }
+
+    let newValue = value;
+
+    if (isArray(value)) newValue = value.length > 1 ? value : value[0];
+
+
+    if (propertyFilterKey) {
+      set(this.activeFilters, `${filterKey}.${propertyFilterKey}`, newValue);
+
+      return;
+    }
+
+    this.activeFilters[filterKey] = newValue;
+  };
+
+  removeFilterKey = (filterKey: string, propertyFilterKey?: string) => {
+    if (propertyFilterKey) {
+      delete this.activeFilters[filterKey][propertyFilterKey];
+
+      if (Object.keys(this.activeFilters[filterKey]).length === 0) delete this.activeFilters[filterKey];
+
+      return;
+    }
+
+    delete this.activeFilters[filterKey];
+  };
+}
+
+export default Filters;

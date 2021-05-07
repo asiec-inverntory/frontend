@@ -1,21 +1,11 @@
-type FilterOptionsType = {
-  byIds: {
-    [key: number]: string;
-  };
-  ids: number[];
-}
+import { ObjectWithIds } from 'utils/types';
 
-export type FiltersType = {
-  byIds: {
-    [key: string]: {
-      label: string;
-      value: null | number | number[];
-      options: FilterOptionsType;
-    };
-  },
-  ids: string[];
-}
+type DefaultKeysType = 'type' | 'responsible';
 
-export type FiltersPropTypes = {
-  filters: FiltersType;
-}
+export type DefaultFiltersType = ObjectWithIds<
+  DefaultKeysType,
+  {
+    label: string;
+    options: ObjectWithIds<number, string>;
+  }
+>;

@@ -4,6 +4,7 @@ import { Form, Modal, Input, Select } from 'antd';
 import { inject } from 'mobx-react';
 import keyBy from 'lodash/keyBy';
 import mapValues from 'lodash/mapValues';
+import isArray from 'lodash/isArray';
 
 import InputWithAutocomplete from 'App/components/InputWithAutocomplete';
 import TypesStore from 'stores/listing/TypesStore';
@@ -36,10 +37,15 @@ const CreateObjectPopup = ({
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string | undefined>(equipmentObject?.type);
   const { types } = typesStore;
 
+  const equipmentTypes = selectedEquipmentType
+    ? types.byIds[selectedEquipmentType]
+    : undefined;
+
+  if (isArray(equipmentTypes)) return null;
+
   const handleComplete = (values: { [key: string]: string }) => {
-    if (!selectedEquipmentType) return;
-    const propertyKeys = types.byIds[selectedEquipmentType].map((type) => type.id);
-    const properties: Property[] = propertyKeys.map((key) => ({
+    if (!selectedEquipmentType || !equipmentTypes) return;
+    const properties: Property[] = equipmentTypes.ids.map((key) => ({
       key,
       value: values[key],
     }));
@@ -132,10 +138,10 @@ const CreateObjectPopup = ({
             <Input />
           </Form.Item>
         )}
-        {selectedEquipmentType &&
-          types.byIds[selectedEquipmentType].map((attribute) => {
-            const { id, humanReadable, values } = attribute;
-            const measureUnit = measureUnits[selectedEquipmentType][attribute.id];
+        {selectedEquipmentType && equipmentTypes &&
+          equipmentTypes.ids.map((id) => {
+            const { humanReadable, values } = equipmentTypes.byIds[id];
+            const measureUnit = measureUnits[selectedEquipmentType][id];
             const defaultMeasureUnit = measureUnit?.default;
 
             return (

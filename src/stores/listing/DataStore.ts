@@ -27,10 +27,8 @@ class DataStore {
 
   isLoading = true;
 
-  constructor(page: number, size: number) {
+  constructor() {
     makeAutoObservable(this);
-
-    this.fetchData(page, size);
   }
 
   fetchData = async(page: number, pageSize: number) => {
