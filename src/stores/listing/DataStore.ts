@@ -1,22 +1,19 @@
 import { makeAutoObservable } from 'mobx';
 
 import { get } from 'utils/fetch';
-import { DataId, OrderDirection } from 'utils/types';
+import { DataId, OrderDirection, RoomType } from 'utils/types';
 
-type FieldWithIdAndValue = {
-  id: DataId;
-  humanReadable: string;
-}
+type DataValue = string | null;
 
 export type DataType = {
   id: DataId;
   name: string;
-  inventoryCode: string | null;
-  serialCode: string | null;
-  room: FieldWithIdAndValue | null;
-  responsible: FieldWithIdAndValue| null;
+  inventoryCode: DataValue;
+  serialCode: DataValue;
+  room: RoomType | null;
+  responsible: DataValue;
   characteristics: string[];
-}
+};
 
 class DataStore {
   data: DataType[] = [];
@@ -40,7 +37,7 @@ class DataStore {
 
     this.data = data;
     this.isLoading = false;
-  }
+  };
 }
 
 export default DataStore;

@@ -1,6 +1,8 @@
 import lowerCase from 'lodash/lowerCase';
 import upperFirst from 'lodash/upperFirst';
 
+import { RoomType } from './types';
+
 export const getLabelByKey = (key: string): string => {
   let result: string = upperFirst(lowerCase(key));
 
@@ -29,3 +31,6 @@ export const getAbbreviatedName = (fullName: string): string => {
 
   return abbreviatedName;
 };
+
+export const getRoomName = ({ buildingNumber, roomNumber }: RoomType): string =>
+  `${buildingNumber} к. ${roomNumber} каб.`;

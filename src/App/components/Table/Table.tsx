@@ -1,7 +1,7 @@
 import { Table, Button } from 'antd';
 import { inject, observer } from 'mobx-react';
 
-import { getLabelByKey } from 'utils/format';
+import { getLabelByKey, getRoomName } from 'utils/format';
 import DataStore, { DataType } from 'stores/listing/DataStore';
 import { DataId } from 'utils/types';
 
@@ -20,8 +20,8 @@ type ParseDataResultType = Record<ColumnsKeys, string>[] & {
 const parseData = (data: DataType[]): ParseDataResultType => data.map((item) => ({
   key: item.id,
   name: item.name,
-  responsible: item.responsible?.humanReadable || 'Нет',
-  room: item.room?.humanReadable || 'На складе',
+  responsible: item.responsible || 'Нет',
+  room: item.room !== null ? getRoomName(item.room) : 'На складе',
 }));
 
 const TableComponent = ({ dataStore }: StoreProps) => {
