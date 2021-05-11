@@ -5,11 +5,18 @@ import difference from 'lodash/difference';
 import { makeAutoObservable } from 'mobx';
 
 export type FilterValuesType = string | number | (string | number)[] | [number, number];
+
 type FilterPropertiesType = Record<string, FilterValuesType>;
-type ActiveFiltersType = Record<string, FilterPropertiesType | FilterValuesType>;
+
+export type ActiveFiltersType = Record<string, FilterPropertiesType | FilterValuesType>;
 
 class Filters {
   activeFilters: ActiveFiltersType = {};
+
+  // this variable uses to track filters change because mobx reaction can't track changes inside object
+  // false - filters changed, but the request was not sent
+  // true - filters changed and the request was sent
+  isFiltersApplied = true;
 
   constructor() {
     makeAutoObservable(this);
@@ -28,9 +35,11 @@ class Filters {
     const deletedKey = difference(currentTypes, newTypes);
 
     delete this.activeFilters[deletedKey[0]];
-  }
+  };
 
   handleFilterChange = (filterKey: string, value: FilterValuesType, propertyFilterKey?: string) => {
+    this.isFiltersApplied = false;
+
     if (filterKey === 'type') this.handleTypeFilterChange(value);
 
     if (isArray(value) && value.length === 0) {
@@ -42,7 +51,6 @@ class Filters {
     let newValue = value;
 
     if (isArray(value)) newValue = value.length > 1 ? value : value[0];
-
 
     if (propertyFilterKey) {
       set(this.activeFilters, `${filterKey}.${propertyFilterKey}`, newValue);

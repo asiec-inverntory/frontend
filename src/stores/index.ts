@@ -17,12 +17,24 @@ const initializeStores = () => {
 
   reaction(
     () => ({
+      isFiltersApplied: filtersStore.isFiltersApplied,
+    }),
+    ({ isFiltersApplied }) => {
+      if (!isFiltersApplied) {
+        filtersStore.isFiltersApplied = true;
+        dataStore.fetchData(paginationStore.page, paginationStore.pageSize, filtersStore.activeFilters);
+      }
+    },
+  );
+
+  reaction(
+    () => ({
       page: paginationStore.page,
       pageSize: paginationStore.pageSize,
       types: typesStore.types,
     }),
     ({ page, pageSize }) => {
-      dataStore.fetchData(page, pageSize);
+      dataStore.fetchData(page, pageSize, filtersStore.activeFilters);
     },
   );
 

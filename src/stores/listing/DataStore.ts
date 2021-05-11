@@ -3,6 +3,8 @@ import { makeAutoObservable } from 'mobx';
 import { get } from 'utils/fetch';
 import { DataId, OrderDirection, RoomType } from 'utils/types';
 
+import { ActiveFiltersType } from './FiltersStore';
+
 type DataValue = string | null;
 
 export type DataType = {
@@ -28,11 +30,12 @@ class DataStore {
     makeAutoObservable(this);
   }
 
-  fetchData = async(page: number, pageSize: number) => {
+  fetchData = async(page: number, pageSize: number, filters: ActiveFiltersType) => {
     this.isLoading = true;
     const data: DataType[] = await get('equipment/list', {
       page,
       pageSize,
+      ...filters,
     });
 
     this.data = data;
