@@ -29,6 +29,7 @@ const RangeInput = ({ min, max, size, defaultValue, onValueChange }: RangeInputP
         min={min}
         max={value[1]}
         onChange={(val) => handleValueChange([val, value[1]])}
+        style={{ width: '100%' }}
       />
       -
       <InputNumber
@@ -37,6 +38,7 @@ const RangeInput = ({ min, max, size, defaultValue, onValueChange }: RangeInputP
         min={value[0]}
         max={max}
         onChange={(val) => handleValueChange([value[0], val])}
+        style={{ width: '100%' }}
       />
     </Space>
   );
