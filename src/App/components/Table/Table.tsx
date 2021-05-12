@@ -4,6 +4,7 @@ import { inject, observer } from 'mobx-react';
 import { getLabelByKey, getRoomName } from 'utils/format';
 import DataStore, { DataType } from 'stores/listing/DataStore';
 import { DataId } from 'utils/types';
+import UiStore from 'stores/listing/UiStore';
 
 import { TableContainer } from './styled';
 import { columnKeys } from './consts';
@@ -11,6 +12,7 @@ import { ColumnsKeys } from './types';
 
 type StoreProps = {
   dataStore: DataStore;
+  uiStore: UiStore;
 }
 
 type ParsedDataType = Record<ColumnsKeys, string> &
@@ -75,8 +77,14 @@ const TableComponent = ({ dataStore }: StoreProps) => {
           dataIndex="attr"
           key="attr"
           align="center"
-          render={() => (
-            <Button>
+          render={(value, values: ParsedDataType) => (
+            <Button onClick={() => {
+              dataStore.handleOpenDescriptionPopup({
+                title: values.name,
+                characteristics: [],
+              });
+            }}
+            >
               Подробнее
             </Button>
           )}
@@ -88,4 +96,4 @@ const TableComponent = ({ dataStore }: StoreProps) => {
 
 TableComponent.defaultProps = {} as StoreProps;
 
-export default inject('dataStore')(observer(TableComponent));
+export default inject('dataStore', 'uiStore')(observer(TableComponent));

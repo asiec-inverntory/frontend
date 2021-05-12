@@ -17,6 +17,14 @@ export type DataType = {
   characteristics: string[];
 };
 
+export type ObjectDescriptionType = {
+  title: string;
+  characteristics: {
+    label: string;
+    value: string;
+  }[];
+}
+
 class DataStore {
   data: DataType[] = [];
 
@@ -27,6 +35,13 @@ class DataStore {
   isLoading = true;
 
   onDataFetch;
+
+  isObjectDescriptionPopupOpen = false;
+
+  objectDescription: ObjectDescriptionType = {
+    title: '',
+    characteristics: [],
+  };
 
   constructor(onDataFetch: (data: RawDataType) => void) {
     makeAutoObservable(this);
@@ -48,6 +63,19 @@ class DataStore {
     this.data = data;
     this.isLoading = false;
   };
+
+  handleOpenDescriptionPopup = (objectDescription: ObjectDescriptionType) => {
+    this.isObjectDescriptionPopupOpen = true;
+    this.objectDescription = objectDescription;
+  }
+
+  handleCloseDescriptionsPopup = () => {
+    this.isObjectDescriptionPopupOpen = false;
+    this.objectDescription = {
+      title: '',
+      characteristics: [],
+    };
+  }
 }
 
 export default DataStore;
