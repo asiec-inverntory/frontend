@@ -5,6 +5,8 @@ class PaginationStore {
 
   pageSize = 10;
 
+  pageCount = 0;
+
   constructor() {
     makeAutoObservable(this);
   }

@@ -42,7 +42,8 @@ class TypesStore {
 
   fetchTypes = async() => {
     this.isLoading = true;
-    const data: DataType = await get('attribute/list');
+    const dataRaw = await get('attribute/list');
+    const data: DataType = dataRaw.body;
 
     const humanReadableTypeNameById = data[1];
     const typesIds = Object.keys(humanReadableTypeNameById);

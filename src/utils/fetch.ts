@@ -18,24 +18,29 @@ const handlePostResponse = (resp: Response) => {
   }));
 };
 
-// const handleErrors = (response: Response) => {
-//   if (!response.ok)
-//     throw new Error(`${response.status}:${response.statusText}`);
+const handleErrors = (response: Response) => {
+  if (!response.ok)
+    throw new Error(`${response.status}:${response.statusText}`);
 
-//   return response;
-// };
+  return response;
+};
 
-export const get = (url: string, query?: any): Promise<any> => (
-  new Promise<any>((resolve) => {
+export type RawDataType = {
+  body: any;
+  headers: Headers;
+  status: boolean;
+}
+
+export const get = (url: string, query?: any): Promise<RawDataType> => (
+  new Promise<RawDataType>((resolve, reject) => {
     fetch(query ? urlWithQuery<any>(url, query) : url)
-      // .then(handleErrors)
-      .then((resp) => resp.json())
-      .then((body) => resolve(body));
+      .then(handleErrors)
+      .then((resp) => handlePostResponse(resp))
+      .then((body) => resolve(body))
+      .catch((error) => reject(error));
   })
 );
 
-
-// Record<string, unknown> is equal to default object
 export const post = (url: string, params: any): Promise<any> => (
   new Promise<any>((resolve, reject) => {
     fetch(url, {

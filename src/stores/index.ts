@@ -1,5 +1,7 @@
 import { reaction } from 'mobx';
 
+import { RawDataType } from 'utils/fetch';
+
 import ActionStore from './listing/ActionStore';
 import DataStore from './listing/DataStore';
 import FiltersStore from './listing/FiltersStore';
@@ -13,7 +15,14 @@ const initializeStores = () => {
   const filtersStore = new FiltersStore();
   const actionStore = new ActionStore();
   const typesStore = new TypesStore();
-  const dataStore = new DataStore();
+
+  const onDataFetch = (data: RawDataType) => {
+    const pageCount = data.headers.get('x-page-count');
+
+    paginationStore.pageCount = Number(pageCount) || 1;
+  };
+
+  const dataStore = new DataStore(onDataFetch);
 
   reaction(
     () => ({
