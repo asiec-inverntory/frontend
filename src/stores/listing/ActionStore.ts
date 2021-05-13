@@ -31,7 +31,8 @@ export type NewEquipmentObject = {
 };
 
 class ActionStore {
-  isLoading = false;
+  // used to let know that need to update the data after action complete
+  isNeedDataFetch = false;
 
   equipmentObjects: EquipmentObjects = {
     byIds: {},
@@ -76,8 +77,9 @@ class ActionStore {
     this.saveIncompleteActionState();
   }
 
-  saveAllEquipmentObjects = () => {
-    post('equipment/receiving', this.generateQuery());
+  saveAllEquipmentObjects = async() => {
+    await post('equipment/receiving', this.generateQuery());
+    this.isNeedDataFetch = true;
     this.clearAllEquipmentObjects();
   }
 

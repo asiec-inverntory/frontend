@@ -27,10 +27,12 @@ const initializeStores = () => {
   reaction(
     () => ({
       isFiltersApplied: filtersStore.isFiltersApplied,
+      isNeedDataFetch: actionStore.isNeedDataFetch,
     }),
-    ({ isFiltersApplied }) => {
-      if (!isFiltersApplied) {
+    ({ isFiltersApplied, isNeedDataFetch }) => {
+      if (!isFiltersApplied || isNeedDataFetch) {
         filtersStore.isFiltersApplied = true;
+        actionStore.isNeedDataFetch = false;
         dataStore.fetchData(paginationStore.page, paginationStore.pageSize, filtersStore.activeFilters);
       }
     },

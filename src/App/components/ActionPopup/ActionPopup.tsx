@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Modal, Button, Space, Tooltip, Typography } from 'antd';
 import { inject, observer } from 'mobx-react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
@@ -17,6 +19,7 @@ type StoreProps = {
 };
 
 const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const isOKButtonDisabled = actionStore.equipmentObjects.ids.length === 0;
 
   const handleCancel = () => {
@@ -24,7 +27,7 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
     uiStore.closeActionPopup();
   };
 
-  const showConfirm = () =>
+  const showConfirmCancel = () =>
     Modal.confirm({
       icon: <ExclamationCircleOutlined />,
       content: (
@@ -47,15 +50,18 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
 
   const footer = (
     <Space direction="horizontal">
-      <Button danger onClick={() => (isOKButtonDisabled ? handleCancel() : showConfirm())}>
+      <Button danger onClick={() => (isOKButtonDisabled ? handleCancel() : showConfirmCancel())}>
         Отмена
       </Button>
       <Tooltip title={isOKButtonDisabled ? 'Должен быть занесен хотя бы один предмет' : null}>
         <Button
           type="primary"
+          loading={confirmLoading}
           disabled={isOKButtonDisabled}
-          onClick={() => {
-            actionStore.saveAllEquipmentObjects();
+          onClick={async() => {
+            setConfirmLoading(true);
+            await actionStore.saveAllEquipmentObjects();
+            setConfirmLoading(false);
             uiStore.closeActionPopup();
           }}
         >
@@ -130,7 +136,7 @@ const ActionPopup = ({ uiStore, actionStore }: StoreProps) => {
           }
           cta={
             <Space>
-              <Button danger onClick={() => showConfirm()}>
+              <Button danger onClick={() => showConfirmCancel()}>
                 Отменить
               </Button>
               <Button
