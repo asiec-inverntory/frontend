@@ -14,7 +14,10 @@ export type DataType = {
   serialCode: DataValue;
   room: RoomType | null;
   responsible: DataValue;
-  characteristics: string[];
+  characteristics: {
+    label: string;
+    value: string;
+  }[];
 };
 
 export type ObjectDescriptionType = {

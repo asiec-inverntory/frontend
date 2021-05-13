@@ -1,4 +1,4 @@
-import { Table, Button, Typography, Space } from 'antd';
+import { Table, Button, Typography, Space, Tooltip } from 'antd';
 import { inject, observer } from 'mobx-react';
 
 import { getLabelByKey, getRoomName } from 'utils/format';
@@ -16,7 +16,7 @@ type StoreProps = {
 }
 
 type ParsedDataType = Record<ColumnsKeys, string> &
-  Pick<DataType, 'inventoryCode' | 'serialCode'> & {
+  Pick<DataType, 'inventoryCode' | 'serialCode' | 'characteristics'> & {
     key: DataId;
   };
 
@@ -27,6 +27,7 @@ const parseData = (data: DataType[]): ParsedDataType[] => data.map((item) => ({
   room: item.room !== null ? getRoomName(item.room) : 'На складе',
   inventoryCode: item.inventoryCode,
   serialCode: item.serialCode,
+  characteristics: item.characteristics,
 }));
 
 const TableComponent = ({ dataStore }: StoreProps) => {
@@ -77,17 +78,25 @@ const TableComponent = ({ dataStore }: StoreProps) => {
           dataIndex="attr"
           key="attr"
           align="center"
-          render={(value, values: ParsedDataType) => (
-            <Button onClick={() => {
-              dataStore.handleOpenDescriptionPopup({
-                title: values.name,
-                characteristics: [],
-              });
-            }}
-            >
-              Подробнее
-            </Button>
-          )}
+          render={(value, values: ParsedDataType) => {
+            const isDisabled = values.characteristics.length === 0;
+
+            return (
+              <Tooltip title={isDisabled ? 'Нет информации о данном предмете' : null}>
+                <Button
+                  disabled={values.characteristics.length === 0}
+                  onClick={() => {
+                    dataStore.handleOpenDescriptionPopup({
+                      title: values.name,
+                      characteristics: values.characteristics,
+                    });
+                  }}
+                >
+                  Подробнее
+                </Button>
+              </Tooltip>
+            );
+          }}
         />
       </Table>
     </TableContainer>
