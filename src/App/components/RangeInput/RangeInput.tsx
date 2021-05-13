@@ -27,51 +27,49 @@ const RangeInput = ({ min, max, size, defaultValue, onValueChange }: RangeInputP
   const [value, setValue] = useState(defaultValue || [min, max]);
   const [isCurrentValueFetched, setIsCurrentValueFetched] = useState(true);
 
+  const getValueByIndex = (inputValue: number, index: number): ValueType => (
+    index === 0
+      ? [inputValue, value[1]]
+      : [value[0], inputValue]
+  );
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>, index: number, inputValue: number) => {
     if (e.key !== 'Enter') setIsCurrentValueFetched(false);
 
     if (e.key !== 'Enter' || isCurrentValueFetched) return;
 
-    const newValue: ValueType = index === 0 ? [inputValue, value[1]] : [value[0], inputValue];
+    const newValue: ValueType = getValueByIndex(inputValue, index);
     const validatedValue = validateRangeInput(newValue, index);
 
     setIsCurrentValueFetched(true);
     onValueChange(validatedValue);
   };
 
+  const getInputNumberComponent = (index: number) => (
+    <InputNumber
+      value={value[index]}
+      style={{ width: '100%' }}
+      size={size}
+      min={index === 0 ? min : value[0]}
+      max={index === 0 ? value[1] : max}
+      onChange={(val) => setValue(getValueByIndex(val, index))}
+      onBlur={(e) => {
+        if (!isCurrentValueFetched) {
+          const newValue = getValueByIndex(Number(e.currentTarget.value), index);
+
+          onValueChange(validateRangeInput(newValue, index));
+          setIsCurrentValueFetched(true);
+        }
+      }}
+      onKeyDown={(e) => handleKeyDown(e, index, Number(e.currentTarget.value))}
+    />
+  );
+
   return (
     <Space>
-      <InputNumber
-        value={value[0]}
-        size={size}
-        min={min}
-        max={value[1]}
-        onChange={(val) => setValue([val, value[1]])}
-        onBlur={(e) => {
-          if (!isCurrentValueFetched) {
-            onValueChange(validateRangeInput([Number(e.currentTarget.value), value[1]], 0));
-            setIsCurrentValueFetched(true);
-          }
-        }}
-        onKeyDown={(e) => handleKeyDown(e, 0, Number(e.currentTarget.value))}
-        style={{ width: '100%' }}
-      />
+      {getInputNumberComponent(0)}
       -
-      <InputNumber
-        value={value[1]}
-        size={size}
-        min={value[0]}
-        max={max}
-        onChange={(val) => setValue([value[0], val])}
-        onBlur={(e) => {
-          if (!isCurrentValueFetched) {
-            onValueChange(validateRangeInput([value[0], Number(e.currentTarget.value)], 1));
-            setIsCurrentValueFetched(true);
-          }
-        }}
-        onKeyDown={(e) => handleKeyDown(e, 1, Number(e.currentTarget.value))}
-        style={{ width: '100%' }}
-      />
+      {getInputNumberComponent(1)}
     </Space>
   );
 };
