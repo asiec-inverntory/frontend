@@ -19,6 +19,7 @@ const PaginationComponent = ({ paginationStore }: StoreProps) =>
           showLessItems
           total={paginationStore.pageCount}
           showSizeChanger={false}
+          pageSize={1}
           responsive={false}
           onChange={(page) => paginationStore.setPage(page)}
         />
