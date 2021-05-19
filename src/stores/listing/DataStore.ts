@@ -57,7 +57,7 @@ class DataStore {
     const dataRaw = await get('equipment/list', {
       page,
       pageSize,
-      ...filters,
+      filter: JSON.stringify(filters),
     });
 
     this.onDataFetch(dataRaw);
