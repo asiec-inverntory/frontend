@@ -40,7 +40,12 @@ class Filters {
   handleFilterChange = (filterKey: string, value: FilterValuesType, propertyFilterKey?: string) => {
     this.isFiltersApplied = false;
 
-    if (filterKey === 'type') this.handleTypeFilterChange(value);
+    if (filterKey === 'type') {
+      this.activeFilters[filterKey] = value;
+      this.handleTypeFilterChange(value);
+
+      return;
+    }
 
     if (isArray(value) && value.length === 0) {
       this.removeFilterKey(filterKey, propertyFilterKey);

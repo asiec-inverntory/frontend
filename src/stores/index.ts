@@ -30,6 +30,11 @@ const initializeStores = () => {
       isNeedDataFetch: actionStore.isNeedDataFetch,
     }),
     ({ isFiltersApplied, isNeedDataFetch }) => {
+      if (!isFiltersApplied) {
+        paginationStore.page = 1;
+        paginationStore.pageSize = 10;
+      }
+
       if (!isFiltersApplied || isNeedDataFetch) {
         filtersStore.isFiltersApplied = true;
         actionStore.isNeedDataFetch = false;
