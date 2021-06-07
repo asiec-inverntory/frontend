@@ -2,31 +2,31 @@ import { makeAutoObservable } from 'mobx';
 import keyBy from 'lodash/keyBy';
 
 import { get } from 'utils/fetch';
-import { EquipmentTypeValueType, ObjectWithIds } from 'utils/types';
+import { AttributeValueType, ObjectWithIds } from 'utils/types';
 
-export type EquipmentType = {
+export type AttributeType = {
   id: string;
-  // EquipmentTypeValueType means type of equipment valueType
-  // valueType describe type of specific attribute of equipment type
-  valueType: EquipmentTypeValueType;
+  // AttributeValueType means type of attribute valueType
+  // valueType describe type of specific attribute
+  valueType: AttributeValueType;
   humanReadable: string;
   values?: (string | number)[];
   minimum?: number;
   maximum?: number;
 }
 
-export type PropertiesType = ObjectWithIds<string, EquipmentType> | string[];
+export type PropertiesType = ObjectWithIds<string, AttributeType>;
 
 export type EquipmentTypesDataType = ObjectWithIds<string, PropertiesType> & {
   humanReadableTypeNameById: Record<string, string>;
 };
 
 type DataType = [
-  { [key: string]: EquipmentType[]; },
+  { [key: string]: AttributeType[]; },
   { [key: string]: string; }
 ]
 
-class TypesStore {
+class AttributesStore {
   types: EquipmentTypesDataType = {
     byIds: {},
     ids: [],
@@ -71,4 +71,4 @@ class TypesStore {
   }
 }
 
-export default TypesStore;
+export default AttributesStore;

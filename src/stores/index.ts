@@ -6,7 +6,7 @@ import ActionStore from './listing/ActionStore';
 import DataStore from './listing/DataStore';
 import FiltersStore from './listing/FiltersStore';
 import PaginationStore from './listing/PaginationStore';
-import TypesStore from './listing/TypesStore';
+import AttributesStore from './listing/AttributesStore';
 import UiStore from './listing/UiStore';
 
 const initializeStores = () => {
@@ -14,7 +14,7 @@ const initializeStores = () => {
   const paginationStore = new PaginationStore();
   const filtersStore = new FiltersStore();
   const actionStore = new ActionStore();
-  const typesStore = new TypesStore();
+  const attributesStore = new AttributesStore();
 
   const onDataFetch = (data: RawDataType) => {
     const pageCount = data.headers.get('x-page-count');
@@ -47,7 +47,7 @@ const initializeStores = () => {
     () => ({
       page: paginationStore.page,
       pageSize: paginationStore.pageSize,
-      types: typesStore.types,
+      types: attributesStore.types,
     }),
     ({ page, pageSize }) => {
       dataStore.fetchData(page, pageSize, filtersStore.activeFilters);
@@ -59,7 +59,7 @@ const initializeStores = () => {
     paginationStore,
     filtersStore,
     actionStore,
-    typesStore,
+    attributesStore,
     dataStore,
   };
 };

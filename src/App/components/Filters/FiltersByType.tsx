@@ -3,7 +3,7 @@ import { SelectValue } from 'antd/lib/select';
 import isArray from 'lodash/isArray';
 import { toJS } from 'mobx';
 
-import { PropertiesType } from 'stores/listing/TypesStore';
+import { PropertiesType } from 'stores/listing/AttributesStore';
 import { generateObjectByIdsFromArray } from 'utils';
 
 import RangeInput from '../RangeInput';

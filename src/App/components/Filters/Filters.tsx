@@ -7,7 +7,7 @@ import { SelectValue, LabeledValue } from 'antd/lib/select';
 import isArray from 'lodash/isArray';
 
 import FiltersStore, { FilterValuesType } from 'stores/listing/FiltersStore';
-import TypesStore from 'stores/listing/TypesStore';
+import AttributesStore from 'stores/listing/AttributesStore';
 import { getAbbreviatedName } from 'utils/format';
 
 import { generateDefaultFilters } from './utils';
@@ -17,15 +17,15 @@ import FiltersByType from './FiltersByType';
 
 type StoreProps = {
   filtersStore: FiltersStore,
-  typesStore: TypesStore,
+  attributesStore: AttributesStore,
 }
 
-const FiltersComponent = ({ filtersStore, typesStore }: StoreProps) => {
-  const { isLoading } = typesStore;
+const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
+  const { isLoading } = attributesStore;
   const [selectedEquipmentTypes, setSelectedEquipmentTypes] = useState<string[]>([]);
-  const filters: DefaultFiltersType | null = !typesStore.isLoading
+  const filters: DefaultFiltersType | null = !attributesStore.isLoading
     ? generateDefaultFilters(
-      Object.values(typesStore.types.humanReadableTypeNameById),
+      Object.values(attributesStore.types.humanReadableTypeNameById),
       [
         getAbbreviatedName('Иванова Софья Ивановна'),
         getAbbreviatedName('Беляев Савва Михайлович'),
@@ -33,7 +33,7 @@ const FiltersComponent = ({ filtersStore, typesStore }: StoreProps) => {
       ],
     )
     : null;
-  const typeIdByHumanReadableName = invert(typesStore.types.humanReadableTypeNameById);
+  const typeIdByHumanReadableName = invert(attributesStore.types.humanReadableTypeNameById);
 
   const handleOptionClick = useCallback(
     (filterKey: string, selectValue: SelectValue, subFilterKey?: string) => {
@@ -122,8 +122,8 @@ const FiltersComponent = ({ filtersStore, typesStore }: StoreProps) => {
           <div key={equipmentType}>
             <FiltersByType
               equipmentType={equipmentType}
-              label={typesStore.types.humanReadableTypeNameById[equipmentType]}
-              values={typesStore.types.byIds[equipmentType]}
+              label={attributesStore.types.humanReadableTypeNameById[equipmentType]}
+              values={attributesStore.types.byIds[equipmentType]}
               onChange={handleOptionClick}
             />
           </div>
@@ -135,4 +135,4 @@ const FiltersComponent = ({ filtersStore, typesStore }: StoreProps) => {
 
 FiltersComponent.defaultProps = {} as StoreProps;
 
-export default inject('filtersStore', 'typesStore')(observer(FiltersComponent));
+export default inject('filtersStore', 'attributesStore')(observer(FiltersComponent));

@@ -7,12 +7,12 @@ import mapValues from 'lodash/mapValues';
 import isArray from 'lodash/isArray';
 
 import InputWithAutocomplete from 'App/components/InputWithAutocomplete';
-import TypesStore from 'stores/listing/TypesStore';
+import AttributesStore from 'stores/listing/AttributesStore';
 import measureUnits from 'utils/measureUnits';
 import { EquipmentObject, NewEquipmentObject, Property } from 'stores/listing/ActionStore';
 
 type StoreProps = {
-  typesStore: TypesStore;
+  attributesStore: AttributesStore;
 };
 
 type CreateObjectPopupPropsType = StoreProps & {
@@ -23,7 +23,7 @@ type CreateObjectPopupPropsType = StoreProps & {
 };
 
 const CreateObjectPopup = ({
-  typesStore,
+  attributesStore,
   equipmentObject,
   onComplete,
   onEdit,
@@ -35,7 +35,7 @@ const CreateObjectPopup = ({
   const initialValues = mapValues(propertiesById, (item) => item.value);
 
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string | undefined>(equipmentObject?.type);
-  const { types } = typesStore;
+  const { types } = attributesStore;
 
   const equipmentTypes = selectedEquipmentType
     ? types.byIds[selectedEquipmentType]
@@ -170,4 +170,4 @@ const CreateObjectPopup = ({
 
 CreateObjectPopup.defaultProps = {} as StoreProps;
 
-export default inject('typesStore')(CreateObjectPopup);
+export default inject('attributesStore')(CreateObjectPopup);
