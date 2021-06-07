@@ -38,7 +38,9 @@ const initializeStores = () => {
       if (!isFiltersApplied || isNeedDataFetch) {
         filtersStore.isFiltersApplied = true;
         actionStore.isNeedDataFetch = false;
-        dataStore.fetchData(paginationStore.page, paginationStore.pageSize, filtersStore.activeFilters);
+        dataStore.fetchData(
+          paginationStore.page, paginationStore.pageSize, uiStore.searchQuery, filtersStore.activeFilters,
+        );
       }
     },
   );
@@ -48,9 +50,10 @@ const initializeStores = () => {
       page: paginationStore.page,
       pageSize: paginationStore.pageSize,
       types: attributesStore.types,
+      search: uiStore.searchQuery,
     }),
-    ({ page, pageSize }) => {
-      dataStore.fetchData(page, pageSize, filtersStore.activeFilters);
+    ({ page, pageSize, search }) => {
+      dataStore.fetchData(page, pageSize, search, filtersStore.activeFilters);
     },
   );
 

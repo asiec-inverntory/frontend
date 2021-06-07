@@ -5,6 +5,8 @@ class UiStore {
 
   isCreateNewObjectPopupOpen = false;
 
+  searchQuery = '';
+
   constructor() {
     makeAutoObservable(this);
   }
@@ -19,6 +21,10 @@ class UiStore {
 
   handleCreateNewObjectPopupState = () => {
     this.isCreateNewObjectPopupOpen = !this.isCreateNewObjectPopupOpen;
+  }
+
+  setSearchQuery = (query: string) => {
+    this.searchQuery = query;
   }
 }
 

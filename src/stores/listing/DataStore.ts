@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import isEmpty from 'lodash/isEmpty';
 
 import { get, RawDataType } from 'utils/fetch';
 import { DataId, OrderDirection, RoomType } from 'utils/types';
@@ -52,12 +53,13 @@ class DataStore {
     this.onDataFetch = onDataFetch;
   }
 
-  fetchData = async(page: number, pageSize: number, filters: ActiveFiltersType) => {
+  fetchData = async(page: number, pageSize: number, search: string, filters: ActiveFiltersType) => {
     this.isLoading = true;
     const dataRaw = await get('equipment/list', {
       page,
       pageSize,
-      filter: JSON.stringify(filters),
+      filter: !isEmpty(filters) ? JSON.stringify(filters) : undefined,
+      search: search || undefined,
     });
 
     this.onDataFetch(dataRaw);

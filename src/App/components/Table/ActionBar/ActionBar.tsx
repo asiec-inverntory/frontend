@@ -71,7 +71,11 @@ const ActionBar = ({ uiStore, actionStore }: StoreProps) => {
           Действия
         </Button>
       </Dropdown>
-      <Input.Search placeholder="Введите серийный или инвертарный номер..." allowClear />
+      <Input.Search
+        placeholder="Введите серийный или инвертарный номер..."
+        allowClear
+        onSearch={(value) => uiStore.setSearchQuery(value)}
+      />
     </ActionBarContainer>
   );
 };
