@@ -35,8 +35,8 @@ class Filters {
 
       if (type.length <= 1)
         delete this.activeFilters.type;
-      else
-        delete this.activeFilters[deletedKey[0]];
+
+      delete this.activeFilters[deletedKey[0]];
     } else {
       this.activeFilters.type = value;
     }
