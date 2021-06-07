@@ -1,5 +1,5 @@
 import isArray from 'lodash/isArray';
-import isObject from 'lodash/isObject';
+import isUndefined from 'lodash/isUndefined';
 import set from 'lodash/set';
 import difference from 'lodash/difference';
 import { makeAutoObservable } from 'mobx';
@@ -25,23 +25,27 @@ class Filters {
   handleTypeFilterChange = (value: FilterValuesType) => {
     const { type } = this.activeFilters;
 
-    if (isObject(type)) return;
+    if (isArray(type) && !isUndefined(type)) {
+      const newTypes = isArray(value) ? value : [value];
+      const currentTypes = isArray(type) ? type : [type];
 
-    const newTypes = isArray(value) ? value : [value];
-    const currentTypes = isArray(type) ? type : [type];
+      if (newTypes.length > currentTypes.length) return;
 
-    if (newTypes.length > currentTypes.length) return;
+      const deletedKey = difference(currentTypes, newTypes);
 
-    const deletedKey = difference(currentTypes, newTypes);
-
-    delete this.activeFilters[deletedKey[0]];
+      if (type.length <= 1)
+        delete this.activeFilters.type;
+      else
+        delete this.activeFilters[deletedKey[0]];
+    } else {
+      this.activeFilters.type = value;
+    }
   };
 
   handleFilterChange = (filterKey: string, value: FilterValuesType, propertyFilterKey?: string) => {
     this.isFiltersApplied = false;
 
     if (filterKey === 'type') {
-      this.activeFilters[filterKey] = value;
       this.handleTypeFilterChange(value);
 
       return;
