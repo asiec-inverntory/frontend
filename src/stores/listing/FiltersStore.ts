@@ -4,6 +4,9 @@ import set from 'lodash/set';
 import difference from 'lodash/difference';
 import { makeAutoObservable } from 'mobx';
 
+import { get } from 'utils/fetch';
+import { ObjectWithIds } from 'utils/types';
+
 export type FilterValuesType = string | number | (string | number)[] | [number, number];
 
 type FilterPropertiesType = Record<string, FilterValuesType>;
@@ -12,6 +15,11 @@ export type ActiveFiltersType = Record<string, FilterPropertiesType | FilterValu
 
 class Filters {
   activeFilters: ActiveFiltersType = {};
+
+  fetchedFilters: ObjectWithIds<string, string[]> = {
+    byIds: {},
+    ids: [],
+  };
 
   // this variable uses to track filters change because mobx reaction can't track changes inside object
   // false - filters changed, but the request was not sent
@@ -81,6 +89,17 @@ class Filters {
 
     delete this.activeFilters[filterKey];
   };
+
+  fetch = async() => {
+    const responsibleRaw = await get('responsible/list');
+    const responsible = responsibleRaw.body;
+
+
+    this.fetchedFilters.byIds = {
+      responsible,
+    };
+    this.fetchedFilters.ids = ['responsible'];
+  }
 }
 
 export default Filters;

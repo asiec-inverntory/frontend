@@ -30,7 +30,10 @@ const initializeStores = () => {
 
   const fetch = async() => {
     // place everything that should be fetched before data fetch here
-    await Promise.all([attributesStore.fetch()]);
+    await Promise.all([
+      attributesStore.fetch(),
+      filtersStore.fetch(),
+    ]);
 
     await dataFetchWithDefaultParams();
   };

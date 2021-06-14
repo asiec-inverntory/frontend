@@ -22,15 +22,14 @@ type StoreProps = {
 
 const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
   const { isLoading } = attributesStore;
+  const { fetchedFilters } = filtersStore;
   const [selectedEquipmentTypes, setSelectedEquipmentTypes] = useState<string[]>([]);
   const filters: DefaultFiltersType | null = !attributesStore.isLoading
     ? generateDefaultFilters(
       Object.values(attributesStore.types.humanReadableTypeNameById),
-      [
-        getAbbreviatedName('Иванова Софья Ивановна'),
-        getAbbreviatedName('Беляев Савва Михайлович'),
-        getAbbreviatedName('Жукова Алиса Тимофеевна'),
-      ],
+      fetchedFilters.byIds.responsible?.map(
+        (item) => getAbbreviatedName(item),
+      ),
     )
     : null;
   const typeIdByHumanReadableName = invert(attributesStore.types.humanReadableTypeNameById);
