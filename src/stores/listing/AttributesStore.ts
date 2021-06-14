@@ -37,10 +37,9 @@ class AttributesStore {
 
   constructor() {
     makeAutoObservable(this);
-    this.fetchTypes();
   }
 
-  fetchTypes = async() => {
+  fetch = async() => {
     this.isLoading = true;
     const dataRaw = await get('attribute/list');
     const data: DataType = dataRaw.body;

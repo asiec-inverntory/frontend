@@ -24,23 +24,30 @@ const initializeStores = () => {
 
   const dataStore = new DataStore(onDataFetch);
 
+  const dataFetchWithDefaultParams = () => (
+    dataStore.fetch(paginationStore.page, paginationStore.pageSize, uiStore.searchQuery, filtersStore.activeFilters)
+  );
+
+  const fetch = async() => {
+    // place everything that should be fetched before data fetch here
+    await Promise.all([attributesStore.fetch()]);
+
+    await dataFetchWithDefaultParams();
+  };
+
   reaction(
     () => ({
       isFiltersApplied: filtersStore.isFiltersApplied,
-      isNeedDataFetch: actionStore.isNeedDataFetch,
     }),
-    ({ isFiltersApplied, isNeedDataFetch }) => {
+    ({ isFiltersApplied }) => {
       if (!isFiltersApplied) {
         paginationStore.page = 1;
         paginationStore.pageSize = 10;
       }
 
-      if (!isFiltersApplied || isNeedDataFetch) {
+      if (!isFiltersApplied) {
         filtersStore.isFiltersApplied = true;
-        actionStore.isNeedDataFetch = false;
-        dataStore.fetchData(
-          paginationStore.page, paginationStore.pageSize, uiStore.searchQuery, filtersStore.activeFilters,
-        );
+        dataFetchWithDefaultParams();
       }
     },
   );
@@ -49,13 +56,27 @@ const initializeStores = () => {
     () => ({
       page: paginationStore.page,
       pageSize: paginationStore.pageSize,
-      types: attributesStore.types,
       search: uiStore.searchQuery,
     }),
     ({ page, pageSize, search }) => {
-      dataStore.fetchData(page, pageSize, search, filtersStore.activeFilters);
+      dataStore.fetch(page, pageSize, search, filtersStore.activeFilters);
     },
   );
+
+  reaction(
+    () => ({
+      isNeedDataFetch: actionStore.isNeedDataFetch,
+    }),
+    async({ isNeedDataFetch }) => {
+      if (isNeedDataFetch) {
+        actionStore.isNeedDataFetch = false;
+        fetch();
+      }
+    },
+  );
+
+  // should be allways before return
+  fetch();
 
   return {
     uiStore,

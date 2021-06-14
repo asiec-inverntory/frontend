@@ -53,7 +53,7 @@ class DataStore {
     this.onDataFetch = onDataFetch;
   }
 
-  fetchData = async(page: number, pageSize: number, search: string, filters: ActiveFiltersType) => {
+  fetch = async(page: number, pageSize: number, search: string, filters: ActiveFiltersType) => {
     this.isLoading = true;
     const dataRaw = await get('equipment/list', {
       page,
