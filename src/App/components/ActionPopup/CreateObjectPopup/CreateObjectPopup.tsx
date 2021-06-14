@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Form, Modal, Input, Select } from 'antd';
+import { Form, Modal, Input, Select, InputNumber } from 'antd';
 import { inject } from 'mobx-react';
 import keyBy from 'lodash/keyBy';
 import mapValues from 'lodash/mapValues';
@@ -20,6 +20,17 @@ type CreateObjectPopupPropsType = StoreProps & {
   onComplete: (values: NewEquipmentObject) => void;
   onEdit: (id: string, values: EquipmentObject) => void;
   onCancel: () => void;
+};
+
+const validateMessages = {
+  required: 'Поле не может быть пустым',
+  types: {
+    number: 'В этом поле могут быть только числа',
+  },
+  number: {
+    // eslint-disable-next-line no-template-curly-in-string
+    range: 'Значение должно быть между ${min} и ${max}',
+  },
 };
 
 const CreateObjectPopup = ({
@@ -94,6 +105,7 @@ const CreateObjectPopup = ({
         labelCol={{ span: 7 }}
         layout="horizontal"
         onFinish={(values) => handleComplete(values)}
+        validateMessages={validateMessages}
       >
         <Form.Item
           name="equipmentType"
@@ -131,7 +143,6 @@ const CreateObjectPopup = ({
             rules={[
               {
                 required: true,
-                message: 'Серийный номер не может быть пустым',
               },
             ]}
           >
@@ -140,9 +151,10 @@ const CreateObjectPopup = ({
         )}
         {selectedEquipmentType && equipmentTypes &&
           equipmentTypes.ids.map((id) => {
-            const { humanReadable, values } = equipmentTypes.byIds[id];
+            const { humanReadable, values, valueType, minimum, maximum } = equipmentTypes.byIds[id];
             const measureUnit = measureUnits[selectedEquipmentType][id];
             const defaultMeasureUnit = measureUnit?.default;
+            const isNumber = valueType === 'NUMBER' || valueType === 'RANGE';
 
             return (
               <Form.Item noStyle key={id}>
@@ -152,12 +164,16 @@ const CreateObjectPopup = ({
                     rules={[
                       {
                         required: true,
-                        message: 'Поле не может быть пустым',
+                        type: isNumber ? 'number' : 'string',
+                        min: minimum || 0,
+                        max: maximum || 999,
                       },
                     ]}
                     label={defaultMeasureUnit ? `${humanReadable} (${measureUnit[defaultMeasureUnit]})` : humanReadable}
                   >
-                    <InputWithAutocomplete values={values.map((value) => String(value))} />
+                    {isNumber
+                      ? <InputNumber style={{ width: '100%' }} />
+                      : <InputWithAutocomplete values={values.map((value) => value)} />}
                   </Form.Item>
                 ) : null}
               </Form.Item>

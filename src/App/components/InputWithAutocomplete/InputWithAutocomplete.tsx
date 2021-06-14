@@ -4,7 +4,7 @@ import isString from 'lodash/isString';
 import { AutoComplete } from 'antd';
 
 type InputWithAutocompletePropTypes = {
-  values: string[];
+  values: (string | number)[];
   placeholder?: string;
   defaultInnerValue?: string;
   value?: string;
