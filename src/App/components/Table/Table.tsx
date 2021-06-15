@@ -82,7 +82,7 @@ const TableComponent = ({ dataStore }: StoreProps) => {
             const isDisabled = values.characteristics.length === 0;
 
             return (
-              <Tooltip title={isDisabled ? 'Нет информации о данном предмете' : null}>
+              <Tooltip title={isDisabled ? 'Нет информации о предмете' : null}>
                 <Button
                   disabled={values.characteristics.length === 0}
                   onClick={() => {

@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 24px 16px 24px 0;
+  padding: 24px 16px 24px 0;
 `;
 
 export const TableContainer = styled.div`

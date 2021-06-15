@@ -58,7 +58,7 @@ const ActionBar = ({ uiStore, actionStore }: StoreProps) => {
       <Menu.Item>
         Приемка
       </Menu.Item>
-      <Menu.Item>
+      <Menu.Item disabled>
         Приход
       </Menu.Item>
     </Menu>
