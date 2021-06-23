@@ -23,7 +23,7 @@ type StoreProps = {
 const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
   const { isLoading } = attributesStore;
   const { fetchedFilters } = filtersStore;
-  const [selectedEquipmentTypes, setSelectedEquipmentTypes] = useState<string[]>([]);
+  const [selectedEquipmentType, setSelectedEquipmentType] = useState<string>();
   const filters: DefaultFiltersType | null = !attributesStore.isLoading
     ? generateDefaultFilters(
       Object.values(attributesStore.types.humanReadableTypeNameById),
@@ -36,26 +36,24 @@ const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
 
   const handleOptionClick = useCallback(
     (filterKey: string, selectValue: SelectValue, subFilterKey?: string) => {
-      if (!filters || selectValue === undefined) return;
+      if (!filters) return;
+
+      if (selectValue === undefined) {
+        filtersStore.handleFilterChange(filterKey, [], subFilterKey);
+
+        if (filterKey === 'type') setSelectedEquipmentType('');
+
+        return;
+      }
 
       if (filterKey === 'type') {
+        const typeValue = selectValue as number;
         const filterOptions = filters.byIds[filterKey].options;
-        const selectedOptions = isArray(selectValue)
-          ? selectValue.map((optionKey: string | number | LabeledValue) => {
-            const humanizedValue = typeof optionKey === 'object'
-              ? filterOptions.byIds[optionKey.value]
-              : filterOptions.byIds[optionKey];
 
-            return typeIdByHumanReadableName[humanizedValue];
-          })
-          : typeIdByHumanReadableName[filterOptions.byIds[
-            typeof selectValue === 'object'
-              ? selectValue.value
-              : selectValue
-          ]];
+        const selectedOption = typeIdByHumanReadableName[filterOptions.byIds[typeValue]];
 
-        setSelectedEquipmentTypes(isArray(selectedOptions) ? selectedOptions : [selectedOptions]);
-        filtersStore.handleFilterChange(filterKey, selectedOptions);
+        setSelectedEquipmentType(selectedOption);
+        filtersStore.handleFilterChange(filterKey, selectedOption);
 
         return;
       }
@@ -92,8 +90,7 @@ const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
                 {label}
               </Typography.Text>
               <Select
-                showSearch
-                mode="multiple"
+                allowClear
                 style={{ width: '100%' }}
                 onChange={(selectedOptions) => handleOptionClick(filterKey, selectedOptions)}
                 filterOption={
@@ -117,16 +114,14 @@ const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
             </Space>
           );
         })}
-        {!isLoading && selectedEquipmentTypes && selectedEquipmentTypes.map((equipmentType) => (
-          <div key={equipmentType}>
-            <FiltersByType
-              equipmentType={equipmentType}
-              label={attributesStore.types.humanReadableTypeNameById[equipmentType]}
-              values={attributesStore.types.byIds[equipmentType]}
-              onChange={handleOptionClick}
-            />
-          </div>
-        ))}
+        {!isLoading && selectedEquipmentType && (
+          <FiltersByType
+            equipmentType={selectedEquipmentType}
+            label={attributesStore.types.humanReadableTypeNameById[selectedEquipmentType]}
+            values={attributesStore.types.byIds[selectedEquipmentType]}
+            onChange={handleOptionClick}
+          />
+        )}
       </Space>
     </FiltersContainer>
   );
