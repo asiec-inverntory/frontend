@@ -27,9 +27,7 @@ const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
   const filters: DefaultFiltersType | null = !attributesStore.isLoading
     ? generateDefaultFilters(
       Object.values(attributesStore.types.humanReadableTypeNameById),
-      fetchedFilters.byIds.responsible?.map(
-        (item) => getAbbreviatedName(item),
-      ),
+      fetchedFilters.byIds.responsible,
     )
     : null;
   const typeIdByHumanReadableName = invert(attributesStore.types.humanReadableTypeNameById);
@@ -106,7 +104,7 @@ const FiltersComponent = ({ filtersStore, attributesStore }: StoreProps) => {
                       label={optionLabel}
                       value={filterKey === 'type' ? optionKey : optionLabel}
                     >
-                      {optionLabel}
+                      {filterKey === 'responsible' ? getAbbreviatedName(optionLabel) : optionLabel}
                     </Select.Option>
                   );
                 })}
