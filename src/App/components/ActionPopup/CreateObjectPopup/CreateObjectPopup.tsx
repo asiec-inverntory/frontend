@@ -11,6 +11,8 @@ import AttributesStore from 'stores/listing/AttributesStore';
 import measureUnits from 'utils/measureUnits';
 import { EquipmentObject, NewEquipmentObject, Property } from 'stores/listing/ActionStore';
 
+import { FormContainer } from './styled';
+
 type StoreProps = {
   attributesStore: AttributesStore;
 };
@@ -97,62 +99,62 @@ const CreateObjectPopup = ({
         htmlType: 'submit',
       }}
     >
-      <Form
-        id="create-new-object-form"
-        form={form}
-        name="create-new-object"
-        initialValues={initialValues}
-        labelCol={{ span: 7 }}
-        layout="horizontal"
-        onFinish={(values) => handleComplete(values)}
-        validateMessages={validateMessages}
-      >
-        <Form.Item
-          name="equipmentType"
-          label="Тип предмета"
-          rules={[
-            {
-              required: true,
-              message: 'Пожалуйста, выберите тип предмета',
-            },
-          ]}
-          style={{ marginBottom: selectedEquipmentType ? 18 : 0 }}
+      <FormContainer>
+        <Form
+          id="create-new-object-form"
+          form={form}
+          name="create-new-object"
+          initialValues={initialValues}
+          layout="vertical"
+          onFinish={(values) => handleComplete(values)}
+          validateMessages={validateMessages}
         >
-          <Select
-            value={selectedEquipmentType}
-            style={{ width: '100%' }}
-            placeholder="Выберите тип нового предмета..."
-            filterOption={(input, option) => option?.children.toLowerCase().includes(input.toLowerCase())}
-            onChange={(value) => setSelectedEquipmentType(value)}
-          >
-            {types.ids.map((type) => {
-              const value = types.humanReadableTypeNameById[type];
-
-              return (
-                <Select.Option key={type} value={type}>
-                  {value}
-                </Select.Option>
-              );
-            })}
-          </Select>
-        </Form.Item>
-        {selectedEquipmentType && (
           <Form.Item
-            name="serialCode"
-            label="Серийный номер"
+            name="equipmentType"
+            label="Тип предмета:"
             rules={[
               {
                 required: true,
+                message: 'Пожалуйста, выберите тип предмета',
               },
             ]}
+            style={{ marginBottom: selectedEquipmentType ? 18 : 0 }}
           >
-            <Input />
+            <Select
+              value={selectedEquipmentType}
+              style={{ width: '100%' }}
+              placeholder="Выберите тип нового предмета..."
+              filterOption={(input, option) => option?.children.toLowerCase().includes(input.toLowerCase())}
+              onChange={(value) => setSelectedEquipmentType(value)}
+            >
+              {types.ids.map((type) => {
+                const value = types.humanReadableTypeNameById[type];
+
+                return (
+                  <Select.Option key={type} value={type}>
+                    {value}
+                  </Select.Option>
+                );
+              })}
+            </Select>
           </Form.Item>
-        )}
-        {selectedEquipmentType && equipmentTypes &&
+          {selectedEquipmentType && (
+            <Form.Item
+              name="serialCode"
+              label="Серийный номер:"
+              rules={[
+                {
+                  required: true,
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          )}
+          {selectedEquipmentType && equipmentTypes &&
           equipmentTypes.ids.map((id) => {
             const { humanReadable, values, valueType, minimum, maximum } = equipmentTypes.byIds[id];
-            const measureUnit = measureUnits[selectedEquipmentType][id];
+            const measureUnit = measureUnits[selectedEquipmentType] ? measureUnits[selectedEquipmentType][id] : {};
             const defaultMeasureUnit = measureUnit?.default;
             const isNumber = valueType === 'NUMBER' || valueType === 'RANGE';
 
@@ -169,17 +171,22 @@ const CreateObjectPopup = ({
                         max: maximum || 999,
                       },
                     ]}
-                    label={defaultMeasureUnit ? `${humanReadable} (${measureUnit[defaultMeasureUnit]})` : humanReadable}
+                    label={
+                      defaultMeasureUnit
+                        ? `${humanReadable} (${measureUnit[defaultMeasureUnit]}):`
+                        : `${humanReadable}:`
+                    }
                   >
                     {isNumber
-                      ? <InputNumber style={{ width: '100%' }} />
+                      ? <InputNumber min={minimum} max={maximum} style={{ width: '100%' }} />
                       : <InputWithAutocomplete values={values.map((value) => value)} />}
                   </Form.Item>
                 ) : null}
               </Form.Item>
             );
           })}
-      </Form>
+        </Form>
+      </FormContainer>
     </Modal>
   );
 };

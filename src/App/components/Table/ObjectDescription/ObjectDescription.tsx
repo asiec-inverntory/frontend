@@ -12,8 +12,6 @@ const ObjectDescription = ({ dataStore }: StoreProps) => (
     visible={dataStore.isObjectDescriptionPopupOpen}
     footer={null}
     onCancel={dataStore.handleCloseDescriptionsPopup}
-    centered
-    width={document.documentElement.clientWidth / 3}
   >
     <Descriptions title={dataStore.objectDescription.title} column={2} labelStyle={{ fontWeight: 600 }}>
       {dataStore.objectDescription.characteristics.map((item, i) => (
